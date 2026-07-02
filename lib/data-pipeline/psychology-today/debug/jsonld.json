@@ -1,0 +1,508 @@
+[
+  {
+    "@context": "http://schema.org/",
+    "@type": "SearchResultsPage",
+    "@id": "https://www.psychologytoday.com/ca/therapists/ontario",
+    "name": {
+      "title": "Find Therapists and Psychologists in Ontario - Psychology Today",
+      "description": "Browse verified therapists in Ontario, available in-person or online: Cheryl Lewin, RP; Inna Sepia, MSW, RSW; Maaike de Graaf, MSc, BSc; Tracey Accardo, RN, PMH-C; Iva Keighley, LLB, MSW; Felicia Olajumoke Onwuemele, MDiv, BScN; José Mendoza, PhD; Joelle Anderson, RP, CCC"
+    },
+    "mainEntity": [
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/cheryl-lewin-toronto-on/713423",
+        "url": "https://www.psychologytoday.com/ca/therapists/cheryl-lewin-toronto-on/713423",
+        "name": "Cheryl Lewin",
+        "telephone": "(437) 800-0613",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Toronto",
+            "addressRegion": "Ontario",
+            "postalCode": "M4K"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.6772393,
+            "longitude": -79.3588878
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/inna-sepia-richmond-hill-on/993986",
+        "url": "https://www.psychologytoday.com/ca/therapists/inna-sepia-richmond-hill-on/993986",
+        "name": "Inna Sepia",
+        "telephone": "(289) 797-3234",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Richmond Hill",
+            "addressRegion": "Ontario",
+            "postalCode": "L4B"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.8620629,
+            "longitude": -79.3809606
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/maaike-de-graaf-ottawa-on/361365",
+        "url": "https://www.psychologytoday.com/ca/therapists/maaike-de-graaf-ottawa-on/361365",
+        "name": "Maaike de Graaf",
+        "telephone": "(613) 704-4176",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Ottawa",
+            "addressRegion": "Ontario",
+            "postalCode": "K2A"
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/tracey-accardo-comber-on/1129511",
+        "url": "https://www.psychologytoday.com/ca/therapists/tracey-accardo-comber-on/1129511",
+        "name": "Tracey Accardo",
+        "telephone": "(226) 895-0465",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Comber",
+            "addressRegion": "Ontario",
+            "postalCode": "N0P"
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/iva-keighley-etobicoke-on/129050",
+        "url": "https://www.psychologytoday.com/ca/therapists/iva-keighley-etobicoke-on/129050",
+        "name": "Iva Keighley",
+        "telephone": "(416) 500-1792",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Etobicoke",
+            "addressRegion": "Ontario",
+            "postalCode": "M9C"
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/felicia-olajumoke-onwuemele-oshawa-on/851228",
+        "url": "https://www.psychologytoday.com/ca/therapists/felicia-olajumoke-onwuemele-oshawa-on/851228",
+        "name": "Felicia Olajumoke Onwuemele",
+        "telephone": "(289) 210-5994",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Oshawa",
+            "addressRegion": "Ontario",
+            "postalCode": "L1H"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.8961881,
+            "longitude": -78.8605532
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/jose-mendoza-orleans-on/1610606",
+        "url": "https://www.psychologytoday.com/ca/therapists/jose-mendoza-orleans-on/1610606",
+        "name": "José Mendoza",
+        "telephone": "",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Orleans",
+            "addressRegion": "Ontario",
+            "postalCode": "K1C"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 45.471107,
+            "longitude": -75.5257034
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/joelle-anderson-uxbridge-on/352492",
+        "url": "https://www.psychologytoday.com/ca/therapists/joelle-anderson-uxbridge-on/352492",
+        "name": "Joelle Anderson",
+        "telephone": "(289) 207-7481",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Uxbridge",
+            "addressRegion": "Ontario",
+            "postalCode": "L9P"
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/alexis-mabon-toronto-on/1025689",
+        "url": "https://www.psychologytoday.com/ca/therapists/alexis-mabon-toronto-on/1025689",
+        "name": "Alexis Mabon",
+        "telephone": "(289) 802-2621",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Toronto",
+            "addressRegion": "Ontario",
+            "postalCode": "M5S"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.6663211,
+            "longitude": -79.3872946
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/cindy-santos-newmarket-on/1193213",
+        "url": "https://www.psychologytoday.com/ca/therapists/cindy-santos-newmarket-on/1193213",
+        "name": "Cindy Santos",
+        "telephone": "(289) 276-6069",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Newmarket",
+            "addressRegion": "Ontario",
+            "postalCode": "L3Y"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 44.0538523,
+            "longitude": -79.4584798
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/martin-lachapelle-chatham-on/1668723",
+        "url": "https://www.psychologytoday.com/ca/therapists/martin-lachapelle-chatham-on/1668723",
+        "name": "Martin Lachapelle",
+        "telephone": "(548) 409-5400",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Chatham",
+            "addressRegion": "Ontario",
+            "postalCode": "N7L"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 42.4339387,
+            "longitude": -82.2187664
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/kali-rorabeck-may-belleville-on/449559",
+        "url": "https://www.psychologytoday.com/ca/therapists/kali-rorabeck-may-belleville-on/449559",
+        "name": "Kali Rorabeck (May)",
+        "telephone": "(343) 700-5805",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Belleville",
+            "addressRegion": "Ontario",
+            "postalCode": "K8N"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 44.1711054,
+            "longitude": -77.3776389
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.psychologytoday.com/ca/therapists/haley-moore-therapy-uninterrupted-toronto-on/421462",
+        "url": "https://www.psychologytoday.com/ca/therapists/haley-moore-therapy-uninterrupted-toronto-on/421462",
+        "name": "Haley Moore - Therapy Uninterrupted",
+        "telephone": "(437) 476-8461",
+        "location": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Toronto",
+            "addressRegion": "Ontario",
+            "postalCode": "M4P"
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/marni-reisman-thornhill-on/1676674",
+        "url": "https://www.psychologytoday.com/ca/therapists/marni-reisman-thornhill-on/1676674",
+        "name": "Marni Reisman",
+        "telephone": "(365) 517-3654",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Thornhill",
+            "addressRegion": "Ontario",
+            "postalCode": "L4J"
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/danielle-beaubien-cobourg-on/1520969",
+        "url": "https://www.psychologytoday.com/ca/therapists/danielle-beaubien-cobourg-on/1520969",
+        "name": "Danielle Beaubien",
+        "telephone": "(289) 906-1711",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Cobourg",
+            "addressRegion": "Ontario",
+            "postalCode": "K9A"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.9703296,
+            "longitude": -78.1952274
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/nikki-das-mississauga-on/1578738",
+        "url": "https://www.psychologytoday.com/ca/therapists/nikki-das-mississauga-on/1578738",
+        "name": "Nikki Das",
+        "telephone": "(289) 301-7927",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Mississauga",
+            "addressRegion": "Ontario",
+            "postalCode": "L4Z"
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/rashed-afif-hamilton-on/1595968",
+        "url": "https://www.psychologytoday.com/ca/therapists/rashed-afif-hamilton-on/1595968",
+        "name": "Rashed Afif",
+        "telephone": "",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Hamilton",
+            "addressRegion": "Ontario",
+            "postalCode": "L8H"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.2510487,
+            "longitude": -79.8164707
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.psychologytoday.com/ca/therapists/polly-florius-psychotherapy-toronto-on/340005",
+        "url": "https://www.psychologytoday.com/ca/therapists/polly-florius-psychotherapy-toronto-on/340005",
+        "name": "Polly Florius Psychotherapy",
+        "telephone": "(647) 952-9462",
+        "location": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Toronto",
+            "addressRegion": "Ontario",
+            "postalCode": "M4Y"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.6669074,
+            "longitude": -79.3830314
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/lalita-bains-london-on/1144447",
+        "url": "https://www.psychologytoday.com/ca/therapists/lalita-bains-london-on/1144447",
+        "name": "Lalita Bains",
+        "telephone": "(226) 705-0337",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "London",
+            "addressRegion": "Ontario",
+            "postalCode": "N6C"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 42.9468289,
+            "longitude": -81.2280823
+          }
+        }
+      },
+      {
+        "@context": "http://schema.org",
+        "@type": "Person",
+        "@id": "https://www.psychologytoday.com/ca/therapists/amy-daoust-mississauga-on/1060221",
+        "url": "https://www.psychologytoday.com/ca/therapists/amy-daoust-mississauga-on/1060221",
+        "name": "Amy Daoust",
+        "telephone": "(289) 274-8251",
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "CA"
+            },
+            "addressLocality": "Mississauga",
+            "addressRegion": "Ontario",
+            "postalCode": "L5M"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.5821636,
+            "longitude": -79.7147296
+          }
+        }
+      }
+    ],
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Ontario",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ontario",
+        "addressRegion": "Ontario",
+        "addressCountry": "CA"
+      }
+    }
+  }
+]

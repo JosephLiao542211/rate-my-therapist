@@ -1,0 +1,2150 @@
+{
+  "id": 1589990,
+  "profileTypeId": 27,
+  "acceptingEmails": true,
+  "endorsementsCount": 3,
+  "verificationStatus": "VERIFIED",
+  "status": "ENABLED",
+  "useCompanyName": false,
+  "onlineTherapy": true,
+  "free_consultation": true,
+  "uuid": "1ccbd8db-027d-4665-9ebd-f5d59f1dbd58",
+  "title": "",
+  "firstName": "Melanie",
+  "middleName": "",
+  "pronouns": "",
+  "lastName": "Fuller",
+  "accepting_appointments": "YES",
+  "hasProtectedNumber": false,
+  "hasWebsite": true,
+  "phoneNumber": "+12897639898",
+  "photoUrls": {
+    "thumbnail": "https://photos.psychologytoday.com/79f632b6-8aff-4968-963a-edba800e1af6/1/320x400.jpeg",
+    "width": 320,
+    "height": 400,
+    "type": "image/jpeg"
+  },
+  "primaryLocation": {
+    "uuid": "b0c78dcd-cc1b-406e-b925-08241184560c",
+    "phoneNumber": "+12897639898",
+    "formattedPhoneNumber": "(289) 763-9898",
+    "phoneUrl": "tel:+1-289-763-9898",
+    "addressLine1": "16775 Yonge Street",
+    "addressLine2": "Unit 407",
+    "cityName": "Newmarket",
+    "cityUrlPath": "[PROFILE_CLASS]/on/newmarket",
+    "regionName": "Ontario",
+    "regionCode": "ON",
+    "regionUrlPath": "[PROFILE_CLASS]/ontario",
+    "postalCode": "L3X",
+    "countryCode": "CA",
+    "lat": 44.0375546,
+    "lon": -79.47622369999999
+  },
+  "secondaryLocation": {
+    "uuid": "7bd8600b-e75b-4e8e-a945-9dce4178796c",
+    "phoneNumber": "+12897639898",
+    "formattedPhoneNumber": "(289) 763-9898",
+    "phoneUrl": "tel:+1-289-763-9898",
+    "locationName": "My Inner Peace Counselling & Psychotherapy",
+    "addressLine1": "72 Ross Street",
+    "addressLine2": "Unit 4",
+    "cityName": "Barrie",
+    "cityUrlPath": "[PROFILE_CLASS]/on/barrie",
+    "regionName": "Ontario",
+    "regionCode": "ON",
+    "regionUrlPath": "[PROFILE_CLASS]/ontario",
+    "postalCode": "L4N",
+    "countryCode": "CA",
+    "lat": 44.3912549,
+    "lon": -79.6977404
+  },
+  "education": {
+    "uuid": "493fb7ce-97dc-4bb6-b509-5464f2ee2475",
+    "institution": "University of Guelph",
+    "yearEducationCompleted": 2021,
+    "diplomaDegree": "B.A. (Hons.) Sociology"
+  },
+  "fees": {
+    "initial_session_cost": 0,
+    "individual_session_cost": 160,
+    "couples_session_cost": 180,
+    "sliding_scale": false
+  },
+  "suffixes": [
+    {
+      "hasDefinition": true,
+      "isWriteIn": false,
+      "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+      "type": "profile-type",
+      "id": 1974
+    },
+    {
+      "hasDefinition": false,
+      "isWriteIn": true,
+      "label": "RP(Q)",
+      "type": "academic",
+      "id": 1600
+    },
+    {
+      "hasDefinition": false,
+      "isWriteIn": true,
+      "label": "BA",
+      "type": "academic",
+      "id": 1600
+    },
+    {
+      "hasDefinition": false,
+      "isWriteIn": true,
+      "label": "MACP",
+      "type": "academic",
+      "id": 1600
+    }
+  ],
+  "credentials": [
+    {
+      "isPrimary": false,
+      "hasAccreditation": false,
+      "uuid": "a4bcdabf-7ec3-40fc-bd39-1ac99a02e658",
+      "type": "certificate",
+      "issued": "",
+      "expiration": "",
+      "organization": "Principles of Healthy Child Development",
+      "organizationAbbreviation": "",
+      "organizationIdentifier": "High Five",
+      "accreditation": "",
+      "accreditationAbbreviation": "",
+      "accreditationTitle": "",
+      "accreditationDefinition": "",
+      "supervisorName": "",
+      "supervisorOrganization": "",
+      "supervisorIdentifier": "",
+      "supervisorExpiration": "",
+      "verificationStatus": "NO_DATA",
+      "credentialName": "Melanie Fuller"
+    },
+    {
+      "isPrimary": true,
+      "hasAccreditation": false,
+      "uuid": "a9e2ef74-ec14-4e7e-bae5-d0c0206bb162",
+      "type": "license",
+      "issued": "",
+      "expiration": "2030-08-01",
+      "organization": "Ontario",
+      "organizationAbbreviation": "ON",
+      "organizationIdentifier": "20489",
+      "accreditation": "",
+      "accreditationAbbreviation": "",
+      "accreditationTitle": "",
+      "accreditationDefinition": "",
+      "supervisorName": "",
+      "supervisorOrganization": "",
+      "supervisorIdentifier": "",
+      "supervisorExpiration": "",
+      "verificationStatus": "VERIFIED_WITH_CHECKMARK",
+      "credentialName": "Melanie Fuller"
+    },
+    {
+      "isPrimary": false,
+      "hasAccreditation": false,
+      "uuid": "e1ddb470-d99e-4edd-bb7b-7940b4ac6711",
+      "type": "certificate",
+      "issued": "",
+      "expiration": "",
+      "organization": "Healthy Minds for Healthy Children",
+      "organizationAbbreviation": "",
+      "organizationIdentifier": "High Five",
+      "accreditation": "",
+      "accreditationAbbreviation": "",
+      "accreditationTitle": "",
+      "accreditationDefinition": "",
+      "supervisorName": "",
+      "supervisorOrganization": "",
+      "supervisorIdentifier": "",
+      "supervisorExpiration": "",
+      "verificationStatus": "NO_DATA",
+      "credentialName": "Melanie Fuller"
+    }
+  ],
+  "gallery": [
+    {
+      "caption": "My Inner Peace Therapy Newmarket Office",
+      "url": "https://photos.psychologytoday.com/2b103681-7122-4da9-bf6d-ab90aa5194ed/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/2b103681-7122-4da9-bf6d-ab90aa5194ed/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/2b103681-7122-4da9-bf6d-ab90aa5194ed/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Therapy Newmarket Office",
+      "url": "https://photos.psychologytoday.com/ecad7c37-5170-48e8-8b39-0bd59de63e72/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/ecad7c37-5170-48e8-8b39-0bd59de63e72/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/ecad7c37-5170-48e8-8b39-0bd59de63e72/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Therapy Newmarket Office",
+      "url": "https://photos.psychologytoday.com/4e2df727-cf75-4bc8-b8ae-d1a0f889bf9c/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/4e2df727-cf75-4bc8-b8ae-d1a0f889bf9c/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/4e2df727-cf75-4bc8-b8ae-d1a0f889bf9c/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Therapy Newmarket Office",
+      "url": "https://photos.psychologytoday.com/a22c9265-34ba-4930-9338-8696f8c1a078/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/a22c9265-34ba-4930-9338-8696f8c1a078/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/a22c9265-34ba-4930-9338-8696f8c1a078/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Counselling & Psychotherapy",
+      "url": "https://photos.psychologytoday.com/e1db5799-9264-42a5-b174-6bd72abfffba/1/large.png",
+      "url_small": "https://photos.psychologytoday.com/e1db5799-9264-42a5-b174-6bd72abfffba/1/small.png",
+      "url_medium": "https://photos.psychologytoday.com/e1db5799-9264-42a5-b174-6bd72abfffba/1/medium.png"
+    },
+    {
+      "caption": "Our Team of Registered Psychotherapists & Registered Social Workers",
+      "url": "https://photos.psychologytoday.com/7f6c3f1f-01f0-4909-847e-6fc1104ce008/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/7f6c3f1f-01f0-4909-847e-6fc1104ce008/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/7f6c3f1f-01f0-4909-847e-6fc1104ce008/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Therapy Barrie Office ",
+      "url": "https://photos.psychologytoday.com/2d9c76ca-3b2d-45d9-beb2-da4ab93a19de/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/2d9c76ca-3b2d-45d9-beb2-da4ab93a19de/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/2d9c76ca-3b2d-45d9-beb2-da4ab93a19de/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Therapy Barrie Office ",
+      "url": "https://photos.psychologytoday.com/93486283-870c-4bae-830f-daa6e398118b/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/93486283-870c-4bae-830f-daa6e398118b/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/93486283-870c-4bae-830f-daa6e398118b/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Therapy Barrie Office ",
+      "url": "https://photos.psychologytoday.com/beaa3fa0-2954-4ec9-82a6-fca360b4aaea/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/beaa3fa0-2954-4ec9-82a6-fca360b4aaea/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/beaa3fa0-2954-4ec9-82a6-fca360b4aaea/1/medium.jpeg"
+    },
+    {
+      "caption": "My Inner Peace Therapy Barrie Office ",
+      "url": "https://photos.psychologytoday.com/60c30af5-1fdd-4e84-a12a-5c36e4d2b26f/1/large.jpeg",
+      "url_small": "https://photos.psychologytoday.com/60c30af5-1fdd-4e84-a12a-5c36e4d2b26f/1/small.jpeg",
+      "url_medium": "https://photos.psychologytoday.com/60c30af5-1fdd-4e84-a12a-5c36e4d2b26f/1/medium.jpeg"
+    }
+  ],
+  "personalStatements": [
+    {
+      "languageCode": "en",
+      "headline1": "",
+      "headline2": "",
+      "headline3": "",
+      "paragraph1": "You may be feeling overwhelmed by life’s challenges, weighed down by self-doubt, or uncertain about how to move forward. Perhaps you’re struggling with anxiety, low mood, relationship stress, or the demands of family life. Maybe you’ve lost touch with your strengths and just want a safe place to be heard. Whatever brings you here, your goal is likely the same: to feel more grounded, understood, and connected to yourself, so you can create a life that feels authentic and meaningful.",
+      "paragraph2": "I offer a warm, calming, and non-judgmental space where you can explore your story and reconnect with your strengths. Using a client-centered and strength-based approach, I help individuals, couples, and families navigate life transitions, build resilience, and work toward meaningful personal growth.",
+      "paragraph3": "Starting therapy can feel like a big step, but you don’t have to do it alone. Together, we’ll focus on what matters most to you and move at a pace that feels safe and supportive. Wherever you are in your journey, I would be honoured to walk alongside you with compassion and curiosity."
+    }
+  ],
+  "quotes": [
+    {
+      "type": "videointroduction",
+      "languages": [
+        {
+          "languageCode": "en",
+          "quote": "Wherever you are in your journey, I'm here to meet you with empathy, curiosity, and hope."
+        }
+      ]
+    },
+    {
+      "type": "availability",
+      "languages": [
+        {
+          "languageCode": "en",
+          "quote": "I offer therapy in person at either location, virtually through a secure video platform, or by phone, whatever you prefer!"
+        }
+      ]
+    },
+    {
+      "type": "insurance",
+      "languages": [
+        {
+          "languageCode": "en",
+          "quote": "You will receive a detailed receipt upon payment. Please check with your insurance regarding coverage as each policy varies."
+        }
+      ]
+    },
+    {
+      "type": "specialties",
+      "languages": [
+        {
+          "languageCode": "en",
+          "quote": "Life is full of difficulties, but you don't have to carry them by yourself. In a non-judgmental, empowering space, you can explore, heal, and move toward the life you want to live."
+        }
+      ]
+    },
+    {
+      "type": "treatmentpreferences",
+      "languages": [
+        {
+          "languageCode": "en",
+          "quote": "My practice is both client-centered and strength-based, meaning I prioritize creating a supportive, trusting relationship where you feel empowered, respected, and understood. We'll work together to highlight your strengths, explore your challenges, and support your growth in a way that feels authentic and meaningful to you."
+        }
+      ]
+    },
+    {
+      "type": "credential",
+      "languages": [
+        {
+          "languageCode": "en",
+          "quote": "I offer a free, no-obligation 15-minute consultation call, so you can get to know me and feel confident in your next steps. I look forward to connecting and hope to be a part of your journey toward self-love and healing."
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "id": 1600,
+      "category_id": 9,
+      "rank": 2,
+      "title": "BA",
+      "category_name": "academic-suffixes",
+      "hasDefinition": false,
+      "IsWriteIn": true,
+      "name": "Other"
+    },
+    {
+      "id": 1600,
+      "category_id": 9,
+      "rank": 3,
+      "title": "MACP",
+      "category_name": "academic-suffixes",
+      "hasDefinition": false,
+      "IsWriteIn": true,
+      "name": "Other"
+    },
+    {
+      "id": 1600,
+      "category_id": 9,
+      "rank": 1,
+      "title": "RP(Q)",
+      "category_name": "academic-suffixes",
+      "hasDefinition": false,
+      "IsWriteIn": true,
+      "name": "Other"
+    },
+    {
+      "id": 6,
+      "category_id": 10,
+      "title": "ADHD",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "ADHD"
+    },
+    {
+      "id": 3,
+      "category_id": 10,
+      "rank": 1,
+      "title": "Anxiety",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Anxiety"
+    },
+    {
+      "id": 5,
+      "category_id": 10,
+      "rank": 3,
+      "title": "Child",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Child or Adolescent"
+    },
+    {
+      "id": 503,
+      "category_id": 10,
+      "title": "Codependency",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Codependency"
+    },
+    {
+      "id": 249,
+      "category_id": 10,
+      "title": "Coping Skills",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Coping Skills"
+    },
+    {
+      "id": 2,
+      "category_id": 10,
+      "title": "Depression",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Depression"
+    },
+    {
+      "id": 198,
+      "category_id": 10,
+      "title": "Emotional Disturbance",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Emotional Disturbance"
+    },
+    {
+      "id": 200,
+      "category_id": 10,
+      "title": "Family Conflict",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Family Conflict"
+    },
+    {
+      "id": 14,
+      "category_id": 10,
+      "title": "Grief",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Grief"
+    },
+    {
+      "id": 25,
+      "category_id": 10,
+      "title": "Neurodivergence Impact",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": true,
+      "name": "Other"
+    },
+    {
+      "id": 16,
+      "category_id": 10,
+      "rank": 2,
+      "title": "Parenting",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Parenting"
+    },
+    {
+      "id": 228,
+      "category_id": 10,
+      "title": "Peer Relationships",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Peer Relationships"
+    },
+    {
+      "id": 578,
+      "category_id": 10,
+      "title": "Pregnancy, Prenatal, Postpartum",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Pregnancy, Prenatal, Postpartum"
+    },
+    {
+      "id": 1,
+      "category_id": 10,
+      "title": "Relationship Issues",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Relationship Issues"
+    },
+    {
+      "id": 260,
+      "category_id": 10,
+      "title": "Self Esteem",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Self Esteem"
+    },
+    {
+      "id": 632,
+      "category_id": 10,
+      "title": "Stress",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Stress"
+    },
+    {
+      "id": 261,
+      "category_id": 10,
+      "title": "Teen Violence",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Teen Violence"
+    },
+    {
+      "id": 19,
+      "category_id": 10,
+      "title": "Trauma and PTSD",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Trauma and PTSD"
+    },
+    {
+      "id": 575,
+      "category_id": 10,
+      "title": "Women's Issues",
+      "category_name": "issues",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Women's Issues"
+    },
+    {
+      "id": 185,
+      "category_id": 11,
+      "title": "Bisexual",
+      "category_name": "sexuality",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Bisexual"
+    },
+    {
+      "id": 186,
+      "category_id": 11,
+      "title": "Lesbian",
+      "category_name": "sexuality",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Lesbian"
+    },
+    {
+      "id": 172,
+      "category_id": 11,
+      "title": "LGBTQ+",
+      "category_name": "sexuality",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "LGBTQ+"
+    },
+    {
+      "id": 21,
+      "category_id": 12,
+      "title": "Impulse Control Disorders",
+      "category_name": "mental-health",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Impulse Control Disorders"
+    },
+    {
+      "id": 201,
+      "category_id": 12,
+      "title": "Mood Disorders",
+      "category_name": "mental-health",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Mood Disorders"
+    },
+    {
+      "id": 24,
+      "category_id": 12,
+      "title": "Thinking Disorders",
+      "category_name": "mental-health",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Thinking Disorders"
+    },
+    {
+      "id": 325,
+      "category_id": 13,
+      "title": "Children (6 to 10)",
+      "category_name": "age-focus",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Children (6 to 10)"
+    },
+    {
+      "id": 330,
+      "category_id": 13,
+      "title": "Preteen",
+      "category_name": "age-focus",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Preteen"
+    },
+    {
+      "id": 326,
+      "category_id": 13,
+      "title": "Teen",
+      "category_name": "age-focus",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Teen"
+    },
+    {
+      "id": 327,
+      "category_id": 13,
+      "title": "Adults",
+      "category_name": "age-focus",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Adults"
+    },
+    {
+      "id": 328,
+      "category_id": 13,
+      "title": "Elders (65+)",
+      "category_name": "age-focus",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Elders (65+)"
+    },
+    {
+      "id": 271,
+      "category_id": 17,
+      "title": "Bisexual Allied",
+      "category_name": "categories",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Bisexual Allied"
+    },
+    {
+      "id": 268,
+      "category_id": 17,
+      "title": "Gay Allied",
+      "category_name": "categories",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Gay Allied"
+    },
+    {
+      "id": 269,
+      "category_id": 17,
+      "title": "Lesbian Allied",
+      "category_name": "categories",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Lesbian Allied"
+    },
+    {
+      "id": 1698,
+      "category_id": 17,
+      "title": "Non-Binary Allied",
+      "category_name": "categories",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Non-Binary Allied"
+    },
+    {
+      "id": 1699,
+      "category_id": 17,
+      "title": "Queer Allied",
+      "category_name": "categories",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Queer Allied"
+    },
+    {
+      "id": 1910,
+      "category_id": 17,
+      "title": "Single Parent",
+      "category_name": "categories",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Single Mother"
+    },
+    {
+      "id": 270,
+      "category_id": 17,
+      "title": "Transgender Allied",
+      "category_name": "categories",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Transgender Allied"
+    },
+    {
+      "id": 580,
+      "category_id": 21,
+      "title": "Acceptance and Commitment (ACT)",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Acceptance and Commitment Therapy (ACT)"
+    },
+    {
+      "id": 496,
+      "category_id": 21,
+      "title": "Attachment-based",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Attachment-based"
+    },
+    {
+      "id": 293,
+      "category_id": 21,
+      "title": "Cognitive Behavioural (CBT)",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Cognitive Behavioral (CBT)"
+    },
+    {
+      "id": 1850,
+      "category_id": 21,
+      "title": "Cognitive Processing (CPT)",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Cognitive Processing (CPT)"
+    },
+    {
+      "id": 654,
+      "category_id": 21,
+      "title": "Compassion Focused",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Compassion Focused"
+    },
+    {
+      "id": 491,
+      "category_id": 21,
+      "title": "Emotionally Focused",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Emotionally Focused"
+    },
+    {
+      "id": 498,
+      "category_id": 21,
+      "title": "Integrative",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Integrative"
+    },
+    {
+      "id": 307,
+      "category_id": 21,
+      "title": "Mindfulness-Based (MBCT)",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Mindfulness-based (MBCT)"
+    },
+    {
+      "id": 492,
+      "category_id": 21,
+      "title": "Motivational Interviewing",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Motivational Interviewing"
+    },
+    {
+      "id": 490,
+      "category_id": 21,
+      "title": "Narrative",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Narrative"
+    },
+    {
+      "id": 628,
+      "category_id": 21,
+      "title": "Person-Centered",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Person-Centered"
+    },
+    {
+      "id": 312,
+      "category_id": 21,
+      "title": "Play Therapy",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Play Therapy"
+    },
+    {
+      "id": 612,
+      "category_id": 21,
+      "title": "Positive Psychology",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Positive Psychology"
+    },
+    {
+      "id": 304,
+      "category_id": 21,
+      "title": "Solution Focused Brief (SFBT)",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Solution Focused Brief (SFBT)"
+    },
+    {
+      "id": 630,
+      "category_id": 21,
+      "title": "Strength-Based",
+      "category_name": "treatment-orientation",
+      "hasDefinition": true,
+      "IsWriteIn": false,
+      "name": "Strength Based"
+    },
+    {
+      "id": 286,
+      "category_id": 22,
+      "title": "Individuals",
+      "category_name": "modality",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Individuals"
+    },
+    {
+      "id": 287,
+      "category_id": 22,
+      "title": "Couples",
+      "category_name": "modality",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Couples"
+    },
+    {
+      "id": 288,
+      "category_id": 22,
+      "title": "Family",
+      "category_name": "modality",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Family"
+    },
+    {
+      "id": 595,
+      "category_id": 23,
+      "title": "Online",
+      "category_name": "online-therapy",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Online Counseling"
+    },
+    {
+      "id": 480,
+      "category_id": 26,
+      "title": "American Express",
+      "category_name": "payment-method",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "American Express"
+    },
+    {
+      "id": 486,
+      "category_id": 26,
+      "title": "Cash",
+      "category_name": "payment-method",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Cash"
+    },
+    {
+      "id": 2015,
+      "category_id": 26,
+      "title": "e-Transfer",
+      "category_name": "payment-method",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "e-Transfer"
+    },
+    {
+      "id": 479,
+      "category_id": 26,
+      "title": "Mastercard",
+      "category_name": "payment-method",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Mastercard"
+    },
+    {
+      "id": 478,
+      "category_id": 26,
+      "title": "Visa",
+      "category_name": "payment-method",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Visa"
+    },
+    {
+      "id": 1001,
+      "category_id": 27,
+      "title": "Female",
+      "category_name": "gender",
+      "hasDefinition": false,
+      "IsWriteIn": false,
+      "name": "Female"
+    }
+  ],
+  "endorsements": [
+    {
+      "fromProfileId": 1513974,
+      "fromProfileUuid": "59f01ed5-fac2-4389-be3a-6f71325dd4b8",
+      "fromFullName": "Saara Kanji",
+      "title": "",
+      "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+      "healthRoleWriteIn": "",
+      "message": "Melanie has a warm and inviting presence that lets you know that she truly cares for your well-being and growth. Her experience with various age groups equips her with the dynamic insight necessary to provide you with the right support in your journey.",
+      "suffixes": [
+        {
+          "hasDefinition": true,
+          "isWriteIn": false,
+          "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+          "type": "profile-type",
+          "id": 1974
+        },
+        {
+          "hasDefinition": false,
+          "isWriteIn": true,
+          "label": "BA",
+          "type": "academic",
+          "id": 1600
+        },
+        {
+          "hasDefinition": true,
+          "isWriteIn": false,
+          "label": "MA",
+          "type": "academic",
+          "id": 1489
+        }
+      ],
+      "profilePhotos": {
+        "120x150": "https://photos.psychologytoday.com/911dbf22-059f-4a74-a89a-f707e0024078/2/120x150.png?noindex",
+        "320x400": "https://photos.psychologytoday.com/911dbf22-059f-4a74-a89a-f707e0024078/2/320x400.png?noindex",
+        "80x100": "https://photos.psychologytoday.com/911dbf22-059f-4a74-a89a-f707e0024078/2/80x100.png?noindex",
+        "edited": "https://photos.psychologytoday.com/911dbf22-059f-4a74-a89a-f707e0024078/2/edited.png?noindex",
+        "original": "https://photos.psychologytoday.com/911dbf22-059f-4a74-a89a-f707e0024078/2/original.png?noindex"
+      },
+      "created": "2025-08-27T19:34:07Z",
+      "status": "ENABLED",
+      "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/saara-kanji-newmarket-on/1513974",
+      "countryCode": "CA",
+      "context": "therapists"
+    },
+    {
+      "fromProfileId": 1590075,
+      "fromProfileUuid": "3f069b54-6989-41ac-aaec-9a292aa62766",
+      "fromFullName": "Olivia Eakins",
+      "title": "",
+      "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+      "healthRoleWriteIn": "",
+      "message": "Melanie's warm, calm & compassionate presence creates a supportive & safe environment for her clients. She is educated, experienced & passionate about working with children & supporting their growth and development.",
+      "suffixes": [
+        {
+          "hasDefinition": true,
+          "isWriteIn": false,
+          "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+          "type": "profile-type",
+          "id": 1974
+        },
+        {
+          "hasDefinition": false,
+          "isWriteIn": true,
+          "label": "BA",
+          "type": "academic",
+          "id": 1600
+        },
+        {
+          "hasDefinition": false,
+          "isWriteIn": true,
+          "label": "MACP",
+          "type": "academic",
+          "id": 1600
+        }
+      ],
+      "profilePhotos": {
+        "120x150": "https://photos.psychologytoday.com/0c0603f5-0023-4f8f-9073-ab79af96957c/1/120x150.jpeg?noindex",
+        "320x400": "https://photos.psychologytoday.com/0c0603f5-0023-4f8f-9073-ab79af96957c/1/320x400.jpeg?noindex",
+        "80x100": "https://photos.psychologytoday.com/0c0603f5-0023-4f8f-9073-ab79af96957c/1/80x100.jpeg?noindex",
+        "edited": "https://photos.psychologytoday.com/0c0603f5-0023-4f8f-9073-ab79af96957c/1/edited.jpeg?noindex",
+        "original": "https://photos.psychologytoday.com/0c0603f5-0023-4f8f-9073-ab79af96957c/1/original.jpeg?noindex"
+      },
+      "created": "2025-12-18T22:01:54Z",
+      "status": "ENABLED",
+      "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/olivia-eakins-newmarket-on/1590075",
+      "countryCode": "CA",
+      "context": "therapists"
+    },
+    {
+      "fromProfileId": 1747464,
+      "fromProfileUuid": "56890d00-b488-5ccf-ae28-a0c84529f4a3",
+      "fromFullName": "Owen Dooley-Phillips",
+      "title": "",
+      "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+      "healthRoleWriteIn": "",
+      "message": "Melanie offers a warm, calm, compassionate space where clients feel heard, supported, and understood. Her client-centred, strength-based approach helps individuals, couples, families, and children navigate anxiety, parenting, life transitions, and growth.",
+      "suffixes": [
+        {
+          "hasDefinition": true,
+          "isWriteIn": false,
+          "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+          "type": "profile-type",
+          "id": 1974
+        },
+        {
+          "hasDefinition": false,
+          "isWriteIn": true,
+          "label": "MACP",
+          "type": "academic",
+          "id": 1600
+        }
+      ],
+      "profilePhotos": {
+        "120x150": "https://photos.psychologytoday.com/a3698bbf-021a-4f11-95d0-4206d768d412/1/120x150.jpeg?noindex",
+        "320x400": "https://photos.psychologytoday.com/a3698bbf-021a-4f11-95d0-4206d768d412/1/320x400.jpeg?noindex",
+        "80x100": "https://photos.psychologytoday.com/a3698bbf-021a-4f11-95d0-4206d768d412/1/80x100.jpeg?noindex",
+        "edited": "https://photos.psychologytoday.com/a3698bbf-021a-4f11-95d0-4206d768d412/1/edited.jpeg?noindex",
+        "original": "https://photos.psychologytoday.com/a3698bbf-021a-4f11-95d0-4206d768d412/1/original.jpeg?noindex"
+      },
+      "created": "2026-05-09T17:04:03Z",
+      "status": "ENABLED",
+      "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/owen-dooley-phillips-barrie-on/1747464",
+      "countryCode": "CA",
+      "context": "therapists"
+    }
+  ],
+  "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+  "healthRoleWriteIn": "",
+  "lastUpdated": "2026-05-11T18:11:57-07:00",
+  "introVideo": {
+    "id": "1113687923",
+    "thumbnail": "https://video-thumbnails.psychologytoday.com/v1113687923.jpeg",
+    "source": "https://player.vimeo.com/external/1113687923.m3u8?s=f4a032934eb9154d3de07fb80331f3829bc7eca5&oauth2_token_id=1324760579",
+    "width": 540,
+    "height": 960,
+    "type": "video/mp4"
+  },
+  "nearbyAreas": {
+    "cities": [
+      {
+        "url": "[PROFILE_CLASS]/on/newmarket",
+        "name": "Newmarket",
+        "parentRegion": "Ontario",
+        "parentRegionCode": "ON"
+      },
+      {
+        "url": "[PROFILE_CLASS]/on/barrie",
+        "name": "Barrie",
+        "parentRegion": "Ontario",
+        "parentRegionCode": "ON"
+      },
+      {
+        "url": "[PROFILE_CLASS]/on/keswick",
+        "name": "Keswick",
+        "parentRegion": "Ontario",
+        "parentRegionCode": "ON"
+      },
+      {
+        "url": "[PROFILE_CLASS]/on/king-city",
+        "name": "King City",
+        "parentRegion": "Ontario",
+        "parentRegionCode": "ON"
+      }
+    ],
+    "postalCodes": [
+      {
+        "url": "ca/[PROFILE_CLASS]/l3x",
+        "name": "L3X",
+        "parentRegion": "Ontario",
+        "parentRegionCode": ""
+      },
+      {
+        "url": "ca/[PROFILE_CLASS]/l4n",
+        "name": "L4N",
+        "parentRegion": "Ontario",
+        "parentRegionCode": ""
+      },
+      {
+        "url": "ca/[PROFILE_CLASS]/l4p",
+        "name": "L4P",
+        "parentRegion": "Ontario",
+        "parentRegionCode": ""
+      },
+      {
+        "url": "ca/[PROFILE_CLASS]/l7b",
+        "name": "L7B",
+        "parentRegion": "Ontario",
+        "parentRegionCode": ""
+      }
+    ]
+  },
+  "appointments": {
+    "online": "YES",
+    "inPerson": "YES"
+  },
+  "appointmentTypes": {
+    "online": true,
+    "inPerson": true
+  },
+  "thirdPartyName": "",
+  "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/melanie-fuller-newmarket-on/1589990",
+  "context": "therapists",
+  "countryCode": "CA",
+  "groupPractice": {
+    "id": 1762544,
+    "uuid": "c51fe3b1-7de7-4c61-9f45-21fccb03c1cf",
+    "companyName": "My Inner Peace Counselling & Psychotherapy (Newmarket)",
+    "useCompanyName": true,
+    "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/my-inner-peace-counselling-psychotherapy-newmarket-newmarket-on/1762544",
+    "context": "therapists",
+    "countryCode": "CA",
+    "photoUrls": {
+      "thumbnail": "https://photos.psychologytoday.com/bd1be9f7-ef8c-48cd-8af4-32435869aaa5/1/80x100.jpeg",
+      "width": 80,
+      "height": 100,
+      "type": "image/jpeg"
+    },
+    "primaryLocation": {
+      "uuid": "57245ef1-9271-49d3-bec4-9c1ef8336448",
+      "phoneNumber": "+12892076228",
+      "formattedPhoneNumber": "(289) 207-6228",
+      "phoneUrl": "tel:+1-289-207-6228",
+      "locationName": "My Inner Peace Counselling & Psychotherapy",
+      "addressLine1": "16775 Yonge St",
+      "addressLine2": "Unit 407",
+      "cityName": "Newmarket",
+      "cityUrlPath": "[PROFILE_CLASS]/on/newmarket",
+      "regionName": "Ontario",
+      "regionCode": "ON",
+      "regionUrlPath": "[PROFILE_CLASS]/ontario",
+      "postalCode": "L3X",
+      "countryCode": "CA",
+      "lat": 44.0375546,
+      "lon": -79.47622369999999
+    },
+    "groupPracticeMembers": [
+      {
+        "id": 936479,
+        "uuid": "64ec6c7b-0864-45e1-8f32-edb90aca9291",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/raluca-petridis-newmarket-on/936479",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/accfa5b6-8478-463d-84e5-c841231795c4/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Raluca",
+        "middleName": "",
+        "lastName": "Petridis",
+        "companyName": "My Inner Peace Counselling & Psychotherapy",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST",
+            "type": "profile-type",
+            "id": 1314
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MA",
+            "type": "academic",
+            "id": 1489
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "CCC",
+            "type": "academic",
+            "id": 1421
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "EMDR",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1212863,
+        "uuid": "cc0142ef-4834-4fd3-9fd5-f5da5fa951ef",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/anthony-andrisani-newmarket-on/1212863",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/37697136-2eea-432a-8b1b-62cae37cf14e/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Anthony",
+        "middleName": "",
+        "lastName": "Andrisani",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP (Q)",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1145044,
+        "uuid": "4dcf5d2e-4019-4c8c-bed0-eba366a1aa0e",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/alaina-clarke-msw-clinical-supervisor-newmarket-on/1145044",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/3f624bb9-2ef8-497c-8d14-f816e317240a/2/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Alaina",
+        "middleName": "",
+        "lastName": "Clarke",
+        "companyName": "Alaina Clarke - MSW - Clinical Supervisor",
+        "useCompanyName": true,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_SOCIAL_WORKER",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_SOCIAL_WORKER",
+            "type": "profile-type",
+            "id": 1973
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MSW",
+            "type": "academic",
+            "id": 1509
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "RSW",
+            "type": "academic",
+            "id": 1528
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1636176,
+        "uuid": "e1a1f975-7795-5dcb-9c0b-909fae4edc80",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/lorenzo-mariani-newmarket-on/1636176",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/967e4f0d-71b3-43e5-bb10-f7962e3c5557/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Lorenzo",
+        "middleName": "",
+        "lastName": "Mariani",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP(Q)",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1536623,
+        "uuid": "363f3aa6-d92e-4322-bfbe-3cf6c562de98",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/kimia-taghavi-newmarket-on/1536623",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/bb332ad1-d5fd-4d79-9464-8c47b0b85af4/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Kimia",
+        "middleName": "",
+        "lastName": "Taghavi",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST",
+            "type": "profile-type",
+            "id": 1314
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1576094,
+        "uuid": "4cd8efd9-55ff-4133-a847-2c21cf052f86",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/sabrina-panaitescu-rapan-newmarket-on/1576094",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/477b2912-6db3-4d83-92f5-dae517e6897f/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Sabrina",
+        "middleName": "",
+        "lastName": "Panaitescu-Rapan",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BA",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MA",
+            "type": "academic",
+            "id": 1489
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP(Q)",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1513974,
+        "uuid": "59f01ed5-fac2-4389-be3a-6f71325dd4b8",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/saara-kanji-newmarket-on/1513974",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/911dbf22-059f-4a74-a89a-f707e0024078/2/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Saara",
+        "middleName": "",
+        "lastName": "Kanji",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BA",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MA",
+            "type": "academic",
+            "id": 1489
+          }
+        ]
+      },
+      {
+        "id": 1669619,
+        "uuid": "c7091932-816b-54af-8206-5af4893e1071",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/alexa-sheriff-newmarket-on/1669619",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/d0a6d67d-08b2-4880-baa5-59e21eaf2c97/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Alexa",
+        "middleName": "",
+        "lastName": "Sheriff",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST",
+            "type": "profile-type",
+            "id": 1314
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BSc",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1589990,
+        "uuid": "1ccbd8db-027d-4665-9ebd-f5d59f1dbd58",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/melanie-fuller-newmarket-on/1589990",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/79f632b6-8aff-4968-963a-edba800e1af6/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Melanie",
+        "middleName": "",
+        "lastName": "Fuller",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP(Q)",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BA",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1428137,
+        "uuid": "f19a67cb-1cfd-4761-8f7b-54cf779456ed",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/arya-amatya-newmarket-on/1428137",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/6f4a9fbd-2ad7-4695-b5dd-79256d10d6aa/2/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Arya",
+        "middleName": "",
+        "lastName": "Amatya",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP(Q)",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1663918,
+        "uuid": "9951444f-7878-521b-b41f-7389e0315337",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/spencer-jones-newmarket-on/1663918",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/be1594a8-c5fc-4c34-87b6-154eb00f5c02/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Spencer",
+        "middleName": "",
+        "lastName": "Jones",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BSc",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RPQ",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1632138,
+        "uuid": "28d09bfc-1054-43e4-a84c-4f1e611155b4",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/shannon-gagnon-newmarket-on/1632138",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/97fc47f5-ae04-4301-ac06-756328873a29/1/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Shannon",
+        "middleName": "",
+        "lastName": "Gagnon",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_SOCIAL_WORKER",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_SOCIAL_WORKER",
+            "type": "profile-type",
+            "id": 1973
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MSW",
+            "type": "academic",
+            "id": 1509
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "RSW",
+            "type": "academic",
+            "id": 1528
+          }
+        ]
+      },
+      {
+        "id": 1379946,
+        "uuid": "2a347c7c-b042-4815-91fc-bd3cf15566a8",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/pantea-ahmadian-newmarket-on/1379946",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/7a01a718-56d2-419d-a4e9-2fb4b3573fa2/1/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Pantea",
+        "middleName": "",
+        "lastName": "Ahmadian",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST",
+            "type": "profile-type",
+            "id": 1314
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MA",
+            "type": "academic",
+            "id": 1489
+          }
+        ]
+      },
+      {
+        "id": 1291865,
+        "uuid": "743d5ecd-97fe-43b1-ba21-ffbe4d382e00",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/madison-carballo-newmarket-on/1291865",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/407cd13e-4e1b-400a-8b53-0a1e9671a7f5/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Madison",
+        "middleName": "",
+        "lastName": "Carballo",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BA H",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1300358,
+        "uuid": "789dcc94-9175-4383-934b-d7fa29738ef7",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/jessica-maronski-newmarket-on/1300358",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/e42408e9-0a92-4894-be0a-e64a74b98213/2/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Jessica",
+        "middleName": "",
+        "lastName": "Maronski",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST",
+            "type": "profile-type",
+            "id": 1314
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "EMDR",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1147433,
+        "uuid": "c9b6a34a-419d-4599-be46-4d694a5e4a7b",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/amy-taylor-newmarket-on/1147433",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/fd2cbd54-92b8-4ec4-b5a9-af003c8d2226/1/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Amy",
+        "middleName": "",
+        "lastName": "Taylor",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_SOCIAL_WORKER",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_SOCIAL_WORKER",
+            "type": "profile-type",
+            "id": 1973
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "RSW",
+            "type": "academic",
+            "id": 1528
+          }
+        ]
+      },
+      {
+        "id": 1235568,
+        "uuid": "77d9e9a7-9b7a-4194-9f77-39c2acab64ab",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/katelyn-beveridge-newmarket-on/1235568",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/6cd6f520-9737-4e6f-94e0-4ea091d8b7ce/2/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Katelyn",
+        "middleName": "",
+        "lastName": "Beveridge",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP(Q)",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1747595,
+        "uuid": "e774b9ce-eab6-577f-a719-58243a95723f",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/taylor-desormeau-newmarket-on/1747595",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/f0df5f43-a449-4a3a-ac87-6a41cfb8a86c/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Taylor",
+        "middleName": "",
+        "lastName": "Desormeau",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP(Q)",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1670511,
+        "uuid": "be8ce89e-a5ee-567a-8a45-97a531d28f25",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/caitlin-gilbert-newmarket-on/1670511",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/4b030785-f991-4bc6-8085-9e1097d782cb/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Caitlin",
+        "middleName": "",
+        "lastName": "Gilbert",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "RN",
+            "type": "academic",
+            "id": 1523
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BScN",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1636481,
+        "uuid": "14c6d30d-3fbf-5bfe-850f-bb8328d9a029",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/emma-murison-newmarket-on/1636481",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/642933b4-456a-4b78-98ae-d7cab4c05c03/3/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Emma",
+        "middleName": "",
+        "lastName": "Murison",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "RP(Q)",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1590075,
+        "uuid": "3f069b54-6989-41ac-aaec-9a292aa62766",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/olivia-eakins-newmarket-on/1590075",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/0c0603f5-0023-4f8f-9073-ab79af96957c/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Olivia",
+        "middleName": "",
+        "lastName": "Eakins",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BA",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 1638731,
+        "uuid": "e8d7e3c9-16ee-57ca-b5c5-59fea2ababc6",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/jennifer-larbi-newmarket-on/1638731",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/1028bd56-d4b1-40a4-bdd7-2bf2cbb43ad7/1/320x400.jpeg",
+          "width": 320,
+          "height": 400,
+          "type": "image/jpeg"
+        },
+        "title": "",
+        "firstName": "Jennifer",
+        "middleName": "",
+        "lastName": "Larbi",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_SOCIAL_WORKER",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_SOCIAL_WORKER",
+            "type": "profile-type",
+            "id": 1973
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MSW",
+            "type": "academic",
+            "id": 1509
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "RSW",
+            "type": "academic",
+            "id": 1528
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "CYCP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      },
+      {
+        "id": 993167,
+        "uuid": "2c3f8d84-8524-4957-b427-a272b3f5acd0",
+        "urlPath": "[COUNTRY_CODE]/[PROFILE_CLASS]/tom-petridis-newmarket-on/993167",
+        "photoUrls": {
+          "thumbnail": "https://photos.psychologytoday.com/532b3721-9d5a-44f4-8059-63d40eb1738d/1/320x400.png",
+          "width": 320,
+          "height": 400,
+          "type": "image/png"
+        },
+        "title": "",
+        "firstName": "Tom",
+        "middleName": "",
+        "lastName": "Petridis",
+        "companyName": "",
+        "useCompanyName": false,
+        "context": "therapists",
+        "countryCode": "CA",
+        "healthRole": "REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+        "healthRoleWriteIn": "",
+        "suffixes": [
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "HealthRoles.REGISTERED_PSYCHOTHERAPIST_QUALIFYING",
+            "type": "profile-type",
+            "id": 1974
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "BA",
+            "type": "academic",
+            "id": 1600
+          },
+          {
+            "hasDefinition": true,
+            "isWriteIn": false,
+            "label": "MEd",
+            "type": "academic",
+            "id": 1496
+          },
+          {
+            "hasDefinition": false,
+            "isWriteIn": true,
+            "label": "MACP",
+            "type": "academic",
+            "id": 1600
+          }
+        ]
+      }
+    ]
+  },
+  "type": "professional"
+}
