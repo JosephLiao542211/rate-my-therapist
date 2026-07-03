@@ -10,6 +10,8 @@
     "scrape": "tsx --env-file=.env.local lib/data-pipeline/psychology-today/scrape.ts",
     "db:migrate": "tsx --env-file=.env.local scripts/migrate.ts",
     "db:clear": "tsx --env-file=.env.local scripts/clear-db.ts",
+    "db:seed-reviews": "tsx --env-file=.env.local scripts/seed-fake-reviews.ts",
+    "db:undo-seed-reviews": "tsx --env-file=.env.local scripts/undo-seed-fake-reviews.ts",
     "scrape:all": "tsx --env-file=.env.local scripts/scrape-all.ts"
   },
   "dependencies": {

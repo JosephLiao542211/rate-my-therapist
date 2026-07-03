@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Script from "next/script";
+import { helveticaNeue } from "./fonts";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
@@ -30,7 +32,15 @@ export default async function RootLayout({
 }) {
   const session = await auth();
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={`h-full ${helveticaNeue.variable}`}>
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6765180234514532"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-[#F7F7F7] text-[#151515]">
         <SessionProvider session={session}>
           <Navbar />
