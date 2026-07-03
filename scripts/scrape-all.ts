@@ -102,7 +102,7 @@ async function scrapeRegion(
 
     let html: string;
     try {
-      html = await session.fetch(currentUrl);
+      ({ html } = await session.fetch(currentUrl));
     } catch (err) {
       console.error(`  ⚠️  Fetch failed: ${err}`);
       break;
@@ -119,7 +119,7 @@ async function scrapeRegion(
       async (entry, i): Promise<PtProfileDetail> => {
         if (i > 0) await sleep(jitter(DELAY, DELAY * 2));
         try {
-          const profileHtml = await session.fetch(entry.pt_url);
+          const { html: profileHtml } = await session.fetch(entry.pt_url);
           return parseProfilePage(profileHtml, entry);
         } catch {
           return entry;

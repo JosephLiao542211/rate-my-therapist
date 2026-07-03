@@ -10,6 +10,8 @@ import {
 import { getReviewsByTherapist } from "@/lib/reviews";
 import { auth } from "@/lib/auth";
 import ReviewCard from "@/components/ReviewCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { BASE } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -30,9 +32,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .filter(Boolean)
     .join(", ");
   const specialty = therapist.specialties[0] ?? "Therapist";
+  // Thin content — pages with no reviews and no bio carry nothing unique for
+  // Google to index yet, so keep them out of the index until they do.
+  const isThin = therapist.review_count === 0 && !therapist.bio;
   return {
     title: `${therapist.name} Reviews`,
     description: `Read ${therapist.review_count} reviews of ${therapist.name}, a ${specialty} therapist in ${location}. Average rating: ${therapist.avg_rating}/5.`,
+    alternates: { canonical: `${BASE}/therapist/${slug}` },
+    robots: isThin ? { index: false, follow: true } : undefined,
   };
 }
 
@@ -112,7 +119,34 @@ export default async function TherapistPage({ params }: Props) {
         worstRating: 1,
       },
     }),
+    ...(reviews.length > 0 && {
+      review: reviews.slice(0, 20).map((r) => ({
+        "@type": "Review",
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: r.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        author: { "@type": "Person", name: r.is_anonymous || !r.author_name ? "Anonymous" : r.author_name },
+        datePublished: r.created_at,
+        ...(r.body && { reviewBody: r.body }),
+      })),
+    }),
   };
+
+  const stateSlug = therapist.state_abbr?.toLowerCase();
+  const citySlug = therapist.city?.toLowerCase().replace(/\s+/g, "-");
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    ...(stateSlug
+      ? [{ name: therapist.state_abbr!, url: `/location/${stateSlug}` }]
+      : []),
+    ...(stateSlug && citySlug
+      ? [{ name: therapist.city!, url: `/location/${stateSlug}/${citySlug}` }]
+      : []),
+    { name: therapist.name, url: `/therapist/${slug}` },
+  ];
 
   return (
     <>
@@ -122,6 +156,7 @@ export default async function TherapistPage({ params }: Props) {
       />
 
       <div className="max-w-6xl mx-auto px-4 py-10">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="flex flex-col lg:flex-row gap-8">
           {/* LEFT — profile */}
           <div className="lg:w-[380px] shrink-0">

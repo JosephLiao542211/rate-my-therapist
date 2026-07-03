@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTherapistsBySpecialty, getAllSpecialties } from "@/lib/therapists";
 import TherapistCard from "@/components/TherapistCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { SPECIALTIES } from "@/lib/constants";
+import { BASE } from "@/lib/seo";
 
 export const revalidate = 86400;
 
@@ -34,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${specialty} Therapists`,
     description: `Find and review ${specialty} therapists. Read real client ratings and reviews to find the right fit.`,
+    alternates: { canonical: `${BASE}/specialty/${name}` },
   };
 }
 
@@ -44,11 +47,12 @@ export default async function SpecialtyPage({ params }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <nav className="text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:text-teal-600">Home</Link>
-        {" / "}
-        <span>{specialty}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { name: "Home", url: "/" },
+          { name: specialty, url: `/specialty/${name}` },
+        ]}
+      />
 
       <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
         {specialty} Therapists

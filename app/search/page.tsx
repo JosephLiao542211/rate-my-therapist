@@ -4,6 +4,7 @@ import SearchPagination from "@/components/SearchPagination";
 import NearMeFilter from "@/components/NearMeFilter";
 import { searchTherapists, getAllLocations } from "@/lib/therapists";
 import { SPECIALTIES } from "@/lib/constants";
+import { BASE } from "@/lib/seo";
 
 interface Props {
   searchParams: Promise<{
@@ -22,9 +23,37 @@ export async function generateMetadata({
   const parts = [params.q, params.specialty, params.city, params.state]
     .filter(Boolean)
     .join(" · ");
+  const page = Math.max(1, parseInt(params.page ?? "1", 10));
+
+  // Canonicalize to page 1 of the same filter combo — consolidates
+  // pagination's ranking signal onto a single URL per query.
+  const canonicalParams = new URLSearchParams({
+    ...(params.q && { q: params.q }),
+    ...(params.state && { state: params.state }),
+    ...(params.city && { city: params.city }),
+    ...(params.specialty && { specialty: params.specialty }),
+  });
+  const qs = canonicalParams.toString();
+  const canonical = `${BASE}/search${qs ? `?${qs}` : ""}`;
+
+  // Cheap count-only lookup to detect empty result pages — those are thin
+  // content and shouldn't be indexed.
+  const { total } = await searchTherapists({
+    q: params.q,
+    state: params.state,
+    city: params.city,
+    specialty: params.specialty,
+    limit: 1,
+  });
+
   return {
     title: parts ? `Therapists: ${parts}` : "Search Therapists",
     description: "Search for therapists by name, location, or specialty.",
+    alternates: { canonical },
+    // Page 2+ and empty-result pages carry no unique content — keep them
+    // crawlable but out of the index so they don't compete with page 1 or
+    // drag down the site's overall content-quality signal.
+    robots: page > 1 || total === 0 ? { index: false, follow: true } : undefined,
   };
 }
 

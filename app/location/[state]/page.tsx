@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTherapistsByLocation, getAllLocations } from "@/lib/therapists";
 import TherapistCard from "@/components/TherapistCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { BASE } from "@/lib/seo";
 
 export const revalidate = 86400;
 
@@ -21,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Therapists in ${stateUpper}`,
     description: `Find and review therapists in ${stateUpper}. Read real client reviews, ratings, and specialties.`,
+    alternates: { canonical: `${BASE}/location/${state}` },
   };
 }
 
@@ -40,11 +43,12 @@ export default async function StatePage({ params }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <nav className="text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:text-teal-600">Home</Link>
-        {" / "}
-        <span>{stateUpper}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { name: "Home", url: "/" },
+          { name: stateUpper, url: `/location/${state}` },
+        ]}
+      />
 
       <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
         Therapists in {stateUpper}

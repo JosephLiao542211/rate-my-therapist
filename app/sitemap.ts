@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllTherapistSlugs, getAllLocations, getAllSpecialties } from "@/lib/therapists";
 import { SPECIALTIES } from "@/lib/constants";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://ratemytherapist.com";
+const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://rate-my-therapist.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [slugs, locations, dbSpecialties] = await Promise.all([
