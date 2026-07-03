@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HeroSearch from "@/components/HeroSearch";
+import LocationHero from "@/components/LocationHero";
 import TherapistCard from "@/components/TherapistCard";
 import { SPECIALTIES } from "@/lib/constants";
 import { searchTherapists } from "@/lib/therapists";
@@ -43,9 +44,7 @@ export default async function HomePage() {
             </span>
           </div>
 
-          <p className="text-white text-2xl font-bold mb-8">
-            Find a <strong>therapist</strong> near you
-          </p>
+          <LocationHero />
 
           <HeroSearch />
 

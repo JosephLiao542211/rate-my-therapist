@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
 import TherapistCard from "@/components/TherapistCard";
-import { searchTherapists } from "@/lib/therapists";
-import { SPECIALTIES, US_STATES } from "@/lib/constants";
+import SearchPagination from "@/components/SearchPagination";
+import NearMeFilter from "@/components/NearMeFilter";
+import { searchTherapists, getAllLocations } from "@/lib/therapists";
+import { SPECIALTIES } from "@/lib/constants";
 
 interface Props {
-  searchParams: Promise<{ q?: string; state?: string; specialty?: string; page?: string }>;
+  searchParams: Promise<{
+    q?: string;
+    state?: string;
+    city?: string;
+    specialty?: string;
+    page?: string;
+  }>;
 }
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: Props): Promise<Metadata> {
   const params = await searchParams;
-  const parts = [params.q, params.specialty, params.state].filter(Boolean).join(" · ");
+  const parts = [params.q, params.specialty, params.city, params.state]
+    .filter(Boolean)
+    .join(" · ");
   return {
     title: parts ? `Therapists: ${parts}` : "Search Therapists",
     description: "Search for therapists by name, location, or specialty.",
@@ -22,22 +34,61 @@ export default async function SearchPage({ searchParams }: Props) {
   const limit = 20;
   const offset = (page - 1) * limit;
 
-  const { therapists, total } = await searchTherapists({
-    q: params.q,
-    state: params.state,
-    specialty: params.specialty,
-    limit,
-    offset,
-  });
+  const [{ therapists, total }, locations] = await Promise.all([
+    searchTherapists({
+      q: params.q,
+      state: params.state,
+      city: params.city,
+      specialty: params.specialty,
+      limit,
+      offset,
+    }),
+    getAllLocations(),
+  ]);
 
   const totalPages = Math.ceil(total / limit);
-  const stateName = US_STATES.find((s) => s.abbr === params.state?.toUpperCase())?.name;
-  const queryLabel = [params.q, params.specialty, stateName ?? params.state].filter(Boolean).join(" · ");
+
+  const states = [
+    ...new Map(
+      locations
+        .filter((l) => l.state_abbr && l.state)
+        .map((l) => [l.state_abbr, { abbr: l.state_abbr, name: l.state }])
+    ).values(),
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
+  const cities = [
+    ...new Set(
+      locations
+        .filter((l) => l.city && (!params.state || l.state_abbr === params.state.toUpperCase()))
+        .map((l) => l.city)
+    ),
+  ].sort((a, b) => a.localeCompare(b));
+
+  const stateName = states.find(
+    (s) => s.abbr === params.state?.toUpperCase(),
+  )?.name;
+  const queryLabel = [params.q, params.specialty, params.city, stateName ?? params.state]
+    .filter(Boolean)
+    .join(" · ");
+
+  function buildHref(p: number) {
+    const sp = new URLSearchParams({
+      ...(params.q && { q: params.q }),
+      ...(params.state && { state: params.state }),
+      ...(params.city && { city: params.city }),
+      ...(params.specialty && { specialty: params.specialty }),
+      page: String(p),
+    });
+    return `/search?${sp}`;
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       {/* Filters bar */}
-      <form method="GET" className="flex flex-wrap gap-3 mb-8 bg-white border border-gray-200 rounded-lg p-4">
+      <form
+        method="GET"
+        className="flex flex-wrap gap-3 mb-8 bg-white border border-gray-200 rounded-lg p-4"
+      >
         <input
           name="q"
           type="text"
@@ -50,9 +101,23 @@ export default async function SearchPage({ searchParams }: Props) {
           defaultValue={params.state ?? ""}
           className="border border-gray-300 rounded px-3 py-2 text-sm text-[#151515] focus:outline-none focus:border-[#151515] bg-white"
         >
-          <option value="">All states</option>
-          {US_STATES.map((s) => (
-            <option key={s.abbr} value={s.abbr}>{s.name}</option>
+          <option value="">All provinces/states</option>
+          {states.map((s) => (
+            <option key={s.abbr} value={s.abbr}>
+              {s.name}
+            </option>
+          ))}
+        </select>
+        <select
+          name="city"
+          defaultValue={params.city ?? ""}
+          className="border border-gray-300 rounded px-3 py-2 text-sm text-[#151515] focus:outline-none focus:border-[#151515] bg-white"
+        >
+          <option value="">All cities</option>
+          {cities.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
           ))}
         </select>
         <select
@@ -62,7 +127,9 @@ export default async function SearchPage({ searchParams }: Props) {
         >
           <option value="">All specialties</option>
           {SPECIALTIES.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>
+              {s}
+            </option>
           ))}
         </select>
         <button
@@ -71,6 +138,7 @@ export default async function SearchPage({ searchParams }: Props) {
         >
           Search
         </button>
+        <NearMeFilter />
       </form>
 
       <h1 className="text-2xl font-black text-[#151515] mb-1">
@@ -93,32 +161,7 @@ export default async function SearchPage({ searchParams }: Props) {
             ))}
           </div>
 
-          {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-10">
-              {Array.from({ length: totalPages }, (_, i) => {
-                const p = i + 1;
-                const sp = new URLSearchParams({
-                  ...(params.q && { q: params.q }),
-                  ...(params.state && { state: params.state }),
-                  ...(params.specialty && { specialty: params.specialty }),
-                  page: String(p),
-                });
-                return (
-                  <a
-                    key={p}
-                    href={`/search?${sp}`}
-                    className={`px-4 py-2 rounded text-sm font-bold border transition ${
-                      p === page
-                        ? "bg-[#151515] text-white border-[#151515]"
-                        : "border-gray-300 text-[#151515] hover:bg-[#151515] hover:text-white hover:border-[#151515]"
-                    }`}
-                  >
-                    {p}
-                  </a>
-                );
-              })}
-            </div>
-          )}
+          <SearchPagination page={page} totalPages={totalPages} buildHref={buildHref} />
         </>
       )}
     </div>
