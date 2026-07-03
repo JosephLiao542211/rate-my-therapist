@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     siteName: "Rate My Therapist",
     type: "website",
   },
+  other: {
+    "google-adsense-account": "ca-pub-6765180234514532",
+  },
 };
 
 export default async function RootLayout({
