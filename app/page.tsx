@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import HeroSearch from "@/components/HeroSearch";
 import TherapistCard from "@/components/TherapistCard";
@@ -20,10 +21,16 @@ export default async function HomePage() {
     <>
       {/* Hero — dark overlay photo style like RMP */}
       <section className="relative min-h-[420px] flex items-center justify-center overflow-hidden">
-        {/* Dark gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900" />
-        {/* Subtle texture overlay */}
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-500 via-transparent to-transparent" />
+        {/* Banner photo */}
+        <Image
+          src="/pexels-rdne-9064679.webp"
+          alt=""
+          fill
+          priority
+          className="object-cover"
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/60" />
 
         <div className="relative z-10 w-full max-w-2xl mx-auto px-6 text-center">
           {/* RMP-style logo text */}

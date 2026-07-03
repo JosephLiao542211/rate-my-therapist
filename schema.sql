@@ -3,6 +3,12 @@
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+-- Migration tracking
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  filename   TEXT PRIMARY KEY,
+  applied_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Therapists
 CREATE TABLE IF NOT EXISTS therapists (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),

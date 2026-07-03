@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { Search } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -21,26 +23,14 @@ export default function Navbar() {
     <nav className="bg-[#151515] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center gap-4">
         {/* Logo */}
-        <Link
-          href="/"
-          className="shrink-0 border border-white text-white font-black text-xs tracking-widest px-2 py-1 hover:bg-white hover:text-[#151515] transition"
-        >
-          RMT
+        <Link href="/" className="shrink-0 flex items-center">
+          <Image src="/rmt.svg" alt="Rate My Therapist" width={86} height={49} priority className="h-8 w-auto" />
         </Link>
-
-        {/* Therapists dropdown stub */}
-        <button className="flex items-center gap-1 text-white text-sm font-medium hover:text-gray-300 transition shrink-0">
-          <span>🍎</span>
-          <span>Therapists</span>
-          <svg className="w-3.5 h-3.5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
 
         {/* Search bar — center */}
         <form onSubmit={handleSearch} className="flex-1 max-w-xl">
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm">🍎</span>
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
             <input
               ref={inputRef}
               type="text"
@@ -60,14 +50,9 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="flex items-center gap-2 text-white text-sm"
               >
-                {session.user?.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={session.user.image} alt="" className="w-7 h-7 rounded-full" />
-                ) : (
-                  <div className="w-7 h-7 rounded-full bg-gray-600 flex items-center justify-center text-xs font-bold text-white">
-                    {session.user?.name?.[0] ?? "U"}
-                  </div>
-                )}
+                <div className="w-7 h-7 rounded-full bg-gray-600 flex items-center justify-center text-xs font-bold text-white">
+                  {session.user?.name?.[0] ?? "U"}
+                </div>
               </button>
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg py-1 text-sm z-50">

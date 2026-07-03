@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import type { Review } from "@/lib/reviews";
-import RatingBadge from "./RatingBadge";
+
+function ratingColor(rating: number): string {
+  if (rating >= 4) return "bg-[#41F9C0]";
+  if (rating >= 3) return "bg-[#FFF155]";
+  return "bg-[#FF969A]";
+}
 
 function yesNo(val: boolean | null | undefined): string {
   if (val == null) return "—";
@@ -50,45 +55,50 @@ export default function ReviewCard({
     }
   }
 
-  const authorLabel =
-    review.is_anonymous || !review.author_name ? "Anonymous" : review.author_name;
-
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+    <div className="bg-white rounded-lg overflow-hidden">
       <div className="flex">
         {/* Score column */}
-        <div className="flex flex-col items-center gap-4 p-5 bg-[#F7F7F7] border-r border-gray-200 w-28 shrink-0">
-          <div className="text-center">
-            <p className="text-[10px] font-black uppercase tracking-widest text-[#151515] mb-1">Overall</p>
-            <RatingBadge rating={review.rating} size="lg" />
+        <div className="flex flex-col gap-4 p-5 shrink-0 w-32">
+          <div>
+            <p className="font-poppins text-xs font-black uppercase tracking-widest text-[#151515] mb-1">Quality</p>
+            <div className={`${ratingColor(review.rating)} w-16 h-16 flex items-center justify-center`}>
+              <span className="font-poppins text-2xl font-black text-[#151515]">
+                {Number(review.rating).toFixed(1)}
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Main content */}
-        <div className="flex-1 p-5 min-w-0">
-          {/* Top meta row */}
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <div className="flex flex-wrap gap-x-5 gap-y-0.5 text-sm text-[#151515]">
-              <span>
-                Would Recommend: <strong>{yesNo(review.would_recommend)}</strong>
-              </span>
-              <span>
-                Felt Heard: <strong>{yesNo(review.felt_heard)}</strong>
-              </span>
-              <span>
-                Helped w/ Goals: <strong>{yesNo(review.helped_with_goals)}</strong>
-              </span>
-              {review.num_sessions != null && (
-                <span>
-                  Sessions: <strong>{review.num_sessions}</strong>
-                </span>
-              )}
-            </div>
+        <div className="flex-1 p-5 pl-0 min-w-0">
+          {/* Top row — date */}
+          <div className="flex items-center justify-end mb-3">
             <span className="text-xs text-gray-400 shrink-0">{formatDate(review.created_at)}</span>
           </div>
 
+          {/* Meta row */}
+          <div className="flex flex-wrap gap-x-5 gap-y-0.5 text-sm text-[#151515] mb-3">
+            <span>
+              Would Recommend: <strong>{yesNo(review.would_recommend)}</strong>
+            </span>
+            <span>
+              Felt Heard: <strong>{yesNo(review.felt_heard)}</strong>
+            </span>
+            <span>
+              Helped w/ Goals: <strong>{yesNo(review.helped_with_goals)}</strong>
+            </span>
+            {review.num_sessions != null && (
+              <span>
+                Sessions: <strong>{review.num_sessions}</strong>
+              </span>
+            )}
+          </div>
+
           {/* Body */}
-          <p className="text-[#151515] text-sm leading-relaxed mb-4">{review.body}</p>
+          {review.body && (
+            <p className="text-[#151515] text-sm leading-relaxed mb-4">{review.body}</p>
+          )}
 
           {/* Tags */}
           {review.tags.length > 0 && (
@@ -96,7 +106,7 @@ export default function ReviewCard({
               {review.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[10px] font-black uppercase tracking-widest border border-[#151515] rounded-full px-3 py-1 text-[#151515]"
+                  className="text-[10px] font-black uppercase tracking-widest border border-gray-300 rounded-full px-3 py-1 text-[#151515]"
                 >
                   {tag}
                 </span>
@@ -126,7 +136,6 @@ export default function ReviewCard({
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-400">{authorLabel}</span>
               <button aria-label="Share" className="text-gray-400 hover:text-[#151515] transition">
                 <ShareIcon />
               </button>

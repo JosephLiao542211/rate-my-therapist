@@ -75,4 +75,5 @@ export interface ScrapeOptions {
   limit: number;
   dryRun: boolean;
   concurrency: number;
+  pageConcurrency: number;
 }

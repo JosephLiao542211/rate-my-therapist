@@ -29,7 +29,7 @@ import { parseListingPage } from "./list-parser.js";
 import { parseProfilePage } from "./profile-parser.js";
 import { seedTherapists } from "./seed.js";
 import { extractJsonLd, extractNuxtData } from "./nuxt-resolver.js";
-import { HttpSession, jitter, sleep as httpSleep } from "./http.js";
+import { HttpSession, jitter, lognormalDelay, sleep as httpSleep } from "./http.js";
 import type { PtListingEntry, PtProfileDetail, ScrapeOptions } from "./types.js";
 
 // ── Arg parsing ────────────────────────────────────────────────────────────
@@ -41,12 +41,13 @@ function parseArgs(argv: string[]): ScrapeOptions {
     return i !== -1 && args[i + 1] ? args[i + 1] : def;
   };
   return {
-    country:       get("--country", "ca"),
-    region:        get("--region", "ontario"),
-    pages:         parseInt(get("--pages", "1"), 10),
-    limit:         parseInt(get("--limit", "100"), 10),
-    dryRun:        args.includes("--dry-run"),
-    concurrency:   parseInt(get("--concurrency", "3"), 10),
+    country:         get("--country", "ca"),
+    region:          get("--region", "ontario"),
+    pages:           parseInt(get("--pages", "1"), 10),
+    limit:           parseInt(get("--limit", "100"), 10),
+    dryRun:          args.includes("--dry-run"),
+    concurrency:     parseInt(get("--concurrency", "3"), 10),
+    pageConcurrency: parseInt(get("--page-concurrency", "3"), 10),
   };
 }
 
@@ -160,50 +161,94 @@ async function main() {
   const session = new HttpSession(baseDelay, opts.country);
   await session.warmUp();
 
-  // ── Collect listing entries ──
+  // ── Collect listing entries (batched parallel pagination) ──
 
   const allEntries: PtProfileDetail[] = [];
   const baseListUrl = `https://www.psychologytoday.com/${opts.country}/therapists/${opts.region}`;
+  let reachedEnd = false;
 
-  for (let page = 1; page <= opts.pages; page++) {
-    const url = page === 1 ? baseListUrl : `${baseListUrl}?page=${page}`;
-    console.log(`📄  Fetching listing page ${page}/${opts.pages}: ${url}`);
+  for (let batchStart = 1; batchStart <= opts.pages && !reachedEnd; batchStart += opts.pageConcurrency) {
+    const batchEnd = Math.min(batchStart + opts.pageConcurrency - 1, opts.pages);
+    const pages = Array.from({ length: batchEnd - batchStart + 1 }, (_, i) => batchStart + i);
 
-    try {
-      const html = await session.fetch(url);
-      if (debug && page === 1) debugHtml(html, url);
-      const entries = parseListingPage(html, url);
-      console.log(`    Found ${entries.length} therapists on page ${page}`);
+    console.log(`📄  Fetching pages ${batchStart}–${batchEnd} in parallel...`);
+
+    const results = await Promise.all(
+      pages.map(async (page, i) => {
+        // Stagger starts within the batch to avoid simultaneous bursts
+        if (i > 0) await sleep(lognormalDelay(baseDelay * i));
+        const url = page === 1 ? baseListUrl : `${baseListUrl}?page=${page}`;
+        try {
+          const { html, finalUrl } = await session.fetch(url);
+          if (page > 1 && !finalUrl.includes(`page=${page}`)) {
+            console.log(`    ↩  Page ${page} redirected — reached last page`);
+            return { page, entries: [], end: true };
+          }
+          if (debug && page === 1) debugHtml(html, url);
+          const entries = parseListingPage(html, url);
+          console.log(`    [page ${page}] ${entries.length} therapists`);
+          return { page, entries, end: false };
+        } catch (err) {
+          console.error(`    ⚠️  Failed page ${page}:`, err);
+          return { page, entries: [], end: false };
+        }
+      })
+    );
+
+    // Merge in page order so allEntries stays sorted
+    results.sort((a, b) => a.page - b.page);
+    for (const { entries, end } of results) {
       allEntries.push(...entries);
-
-      if (allEntries.length >= opts.limit) break;
-      if (page < opts.pages) await sleep(jitter(baseDelay, baseDelay * 3));
-    } catch (err) {
-      console.error(`    ⚠️  Failed page ${page}:`, err);
+      if (end) { reachedEnd = true; break; }
     }
+
+    if (allEntries.length >= opts.limit) break;
+    if (!reachedEnd && batchEnd < opts.pages) await sleep(lognormalDelay(baseDelay * 2));
   }
 
   const limited = allEntries.slice(0, opts.limit);
   console.log(`\n✅  Collected ${limited.length} therapist entries`);
 
-  // ── Enrich with profile pages (always) ──
+  // ── Skip already-scraped therapists ──
 
-  let toSeed: PtProfileDetail[] = limited;
+  let toFetch = limited;
 
-  if (limited.length > 0) {
-    console.log(`\n👤  Fetching ${limited.length} profile pages (concurrency=${opts.concurrency})...`);
+  if (!opts.dryRun && limited.length > 0 && process.env.DATABASE_URL) {
+    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 3 });
+    try {
+      const uuids = limited.map((e) => e.pt_uuid);
+      const { rows } = await pool.query<{ pt_uuid: string }>(
+        "SELECT pt_uuid FROM therapists WHERE pt_uuid = ANY($1)",
+        [uuids]
+      );
+      const existing = new Set(rows.map((r) => r.pt_uuid));
+      toFetch = limited.filter((e) => !existing.has(e.pt_uuid));
+      console.log(
+        `    Skipping ${existing.size} already in DB — fetching profiles for ${toFetch.length} new therapists`
+      );
+    } finally {
+      await pool.end();
+    }
+  }
+
+  // ── Enrich with profile pages ──
+
+  let toSeed: PtProfileDetail[] = toFetch;
+
+  if (toFetch.length > 0) {
+    console.log(`\n👤  Fetching ${toFetch.length} profile pages (concurrency=${opts.concurrency})...`);
     let done = 0;
 
     toSeed = await pMap(
-      limited,
+      toFetch,
       async (entry, i) => {
         if (i > 0) await sleep(jitter(baseDelay, baseDelay * 2));
         try {
-          const html = await session.fetch(entry.pt_url);
+          const html = await session.fetchHtml(entry.pt_url);
           const detail = parseProfilePage(html, entry);
           done++;
           if (verbose || done % 10 === 0) {
-            process.stdout.write(`    [${done}/${limited.length}] ${entry.first_name} ${entry.last_name}\n`);
+            process.stdout.write(`    [${done}/${toFetch.length}] ${entry.first_name} ${entry.last_name}\n`);
           }
           return detail;
         } catch (err) {

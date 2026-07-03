@@ -1,21 +1,26 @@
 /**
- * Anti-bot HTTP session for Psychology Today scraping.
+ * HTTP session for Psychology Today scraping.
  *
- * Features:
- *  - Oxylabs residential proxy rotation (sticky per session, rotates between regions / on 403)
- *  - Country-targeted IPs (cc-ca for Canada, cc-us for USA)
- *  - Rotating browser profiles (User-Agent + matching sec-ch-ua headers)
- *  - Full browser header suite with Referer tracking and Sec-Fetch-* headers
- *  - Cookie jar — warm-up visit to homepage establishes a real session
- *  - Randomised jitter delays
- *  - Exponential backoff + new IP + new UA on 403
- *
- * Required env vars (optional — falls back to direct if not set):
- *   OXYLABS_USER   your username WITHOUT the "user-" prefix, e.g. "test_1_QNvZM"
- *   OXYLABS_PASS   your Oxylabs password
+ * Techniques:
+ *  1. HTTP/2 via undici Agent (allowH2: true) — matches browser protocol fingerprint
+ *  2. Cookie jar persisted to disk — avoids new-session detection across runs
+ *  3. Log-normal delays — matches real human browsing cadence vs uniform random
+ *  4. No DNT header — DNT:1 is a known bot signal; real users don't set it
+ *  +  IP origin spoofing (X-Forwarded-For / X-Real-IP / X-Originating-IP)
+ *  +  Path normalization to bypass literal string filters
+ *  +  Rotating browser profiles (User-Agent + sec-ch-ua)
  */
 
-import { fetch as baseFetch, ProxyAgent } from "undici";
+import fs from "fs";
+import path from "path";
+import { fetch as undiciFetch, Agent } from "undici";
+
+const SESSION_FILE = path.resolve("lib/data-pipeline/psychology-today/.session.json");
+const SESSION_MAX_AGE_MS = 12 * 60 * 60 * 1000; // 12 hours
+
+// ── HTTP/2 agent ──────────────────────────────────────────────────────────────
+
+const h2Agent = new Agent({ allowH2: true, keepAliveTimeout: 30_000 });
 
 // ── Browser profiles ──────────────────────────────────────────────────────────
 
@@ -58,7 +63,45 @@ const PROFILES: BrowserProfile[] = [
   },
 ];
 
-// ── Cookie jar ────────────────────────────────────────────────────────────────
+// ── Spoof IPs ─────────────────────────────────────────────────────────────────
+
+const SPOOF_IPS = ["127.0.0.1", "10.0.0.1", "10.0.1.1", "192.168.1.1", "172.16.0.1"];
+
+function pickSpoofIp(): string {
+  return SPOOF_IPS[Math.floor(Math.random() * SPOOF_IPS.length)];
+}
+
+// ── Path normalization ────────────────────────────────────────────────────────
+
+const PATH_VARIANTS = [
+  (p: string) => p,
+  (p: string) => {
+    const parts = p.split("/").filter(Boolean);
+    if (parts.length < 2) return p;
+    parts.splice(1, 0, ".");
+    return "/" + parts.join("/");
+  },
+];
+
+let pathVariantIndex = 0;
+const NUMERIC_TAIL = /\/\d+$/;
+
+export function normalizePath(url: string): string {
+  const u = new URL(url);
+  if (NUMERIC_TAIL.test(u.pathname)) return url;
+  const variant = PATH_VARIANTS[pathVariantIndex % PATH_VARIANTS.length];
+  pathVariantIndex++;
+  u.pathname = variant(u.pathname);
+  return u.toString();
+}
+
+// ── Cookie jar (with disk persistence) ───────────────────────────────────────
+
+interface PersistedSession {
+  savedAt: number;
+  profileUa: string;
+  cookies: [string, string][];
+}
 
 class CookieJar {
   private store = new Map<string, string>();
@@ -78,9 +121,56 @@ class CookieJar {
     return [...this.store.entries()].map(([k, v]) => `${k}=${v}`).join("; ");
   }
 
+  entries(): [string, string][] {
+    return [...this.store.entries()];
+  }
+
+  load(entries: [string, string][]) {
+    for (const [k, v] of entries) this.store.set(k, v);
+  }
+
   get size() {
     return this.store.size;
   }
+}
+
+function loadSession(): PersistedSession | null {
+  try {
+    if (!fs.existsSync(SESSION_FILE)) return null;
+    const raw = JSON.parse(fs.readFileSync(SESSION_FILE, "utf8")) as PersistedSession;
+    if (Date.now() - raw.savedAt > SESSION_MAX_AGE_MS) {
+      fs.unlinkSync(SESSION_FILE);
+      return null;
+    }
+    return raw;
+  } catch {
+    return null;
+  }
+}
+
+function saveSession(jar: CookieJar, ua: string) {
+  const data: PersistedSession = { savedAt: Date.now(), profileUa: ua, cookies: jar.entries() };
+  fs.writeFileSync(SESSION_FILE, JSON.stringify(data));
+}
+
+// ── Log-normal delay (technique 3) ───────────────────────────────────────────
+
+function boxMullerNormal(): number {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+/**
+ * Returns a delay in ms sampled from a log-normal distribution.
+ * Most values cluster near `mean`, with a long tail of occasional longer pauses —
+ * matching real human click cadence better than uniform jitter.
+ */
+export function lognormalDelay(mean: number, sigma = 0.6): number {
+  const mu = Math.log(mean) - (sigma * sigma) / 2;
+  const ms = Math.round(Math.exp(mu + sigma * boxMullerNormal()));
+  return Math.max(200, ms);
 }
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
@@ -95,52 +185,8 @@ function pickProfile(): BrowserProfile {
   return PROFILES[Math.floor(Math.random() * PROFILES.length)];
 }
 
-function randomSessionId(): string {
-  return (
-    Math.random().toString(36).slice(2, 8) +
-    Math.random().toString(36).slice(2, 8)
-  );
-}
-
-// ── Proxy ─────────────────────────────────────────────────────────────────────
-
-/**
- * Builds an Oxylabs residential ProxyAgent.
- *
- * Proxy URL format:
- *   http://customer-USER-cc-COUNTRY-sessid-SESSIONID:PASS@pr.oxylabs.io:7777
- *
- * Datacenter proxy URL format (Oxylabs):
- *   http://user-USERNAME-country-US:PASS@dc.oxylabs.io:8000
- *
- * - user-USERNAME       → your Oxylabs username prefixed with "user-"
- * - -country-US/CA      → target IPs in that country (uppercase)
- * - Each new connection  → Oxylabs auto-assigns a different datacenter IP from the pool
- *
- * Required env vars:
- *   OXYLABS_USER   the username part only, e.g. "test_1_QNvZM"  (no "user-" prefix)
- *   OXYLABS_PASS   your password
- */
-function buildProxyAgent(country: string, _sessionId: string): ProxyAgent | null {
-  const user = process.env.OXYLABS_USER;
-  const pass = process.env.OXYLABS_PASS;
-  if (!user || !pass) return null;
-
-  const cc   = country === "ca" ? "CA" : "US";
-  const host = process.env.OXYLABS_HOST ?? "dc.oxylabs.io";
-  const port = process.env.OXYLABS_PORT ?? "8000";
-
-  // Datacenter format: user-USERNAME-country-COUNTRYCODE
-  const proxyUser = `user-${user}-country-${cc}`;
-  const proxyUrl  = `http://${proxyUser}:${encodeURIComponent(pass)}@${host}:${port}`;
-
-  return new ProxyAgent(proxyUrl);
-}
-
 function getSetCookies(res: { headers: { getSetCookie?: () => string[]; get: (n: string) => string | null } }): string[] {
-  if (typeof res.headers.getSetCookie === "function") {
-    return res.headers.getSetCookie();
-  }
+  if (typeof res.headers.getSetCookie === "function") return res.headers.getSetCookie();
   const raw = res.headers.get("set-cookie");
   return raw ? [raw] : [];
 }
@@ -148,52 +194,45 @@ function getSetCookies(res: { headers: { getSetCookie?: () => string[]; get: (n:
 // ── Session ───────────────────────────────────────────────────────────────────
 
 export class HttpSession {
-  private jar      = new CookieJar();
-  private profile  = pickProfile();
-  private lastUrl  = "";
-  private sessionId: string;
-  private proxy: ProxyAgent | null;
+  private jar     = new CookieJar();
+  private profile = pickProfile();
+  private lastUrl = "";
 
-  /**
-   * @param baseDelay  Base delay in ms between requests (actual delays are jittered)
-   * @param country    "ca" | "us" — used to target residential IPs in that country
-   */
   constructor(private baseDelay = 2000, private country = "ca") {
-    this.sessionId = randomSessionId();
-    this.proxy     = buildProxyAgent(country, this.sessionId);
-
-    const proxyStatus = this.proxy
-      ? `proxy=dc.oxylabs.io:8000 (${country.toUpperCase()}, user-${process.env.OXYLABS_USER}-country-${country === "ca" ? "CA" : "US"})`
-      : "proxy=NONE (set OXYLABS_USER + OXYLABS_PASS to enable)";
-    process.stdout.write(`  [session] new — ${proxyStatus}\n`);
-  }
-
-  /** Force a new residential IP by regenerating the session ID and proxy agent. */
-  private rotateIp() {
-    this.sessionId = randomSessionId();
-    this.proxy     = buildProxyAgent(this.country, this.sessionId);
-    process.stdout.write(`  [proxy] rotated IP — new sessid=${this.sessionId}\n`);
+    const prior = loadSession();
+    if (prior) {
+      this.jar.load(prior.cookies);
+      const match = PROFILES.find((p) => p.ua === prior.profileUa);
+      if (match) this.profile = match;
+      process.stdout.write(
+        `  [session] restored from disk — cookies=${this.jar.size}, ua=${this.profile.ua.slice(0, 40)}...\n`
+      );
+    } else {
+      process.stdout.write(`  [session] new — HTTP/2 enabled\n`);
+    }
   }
 
   private buildHeaders(url: string, firstRequest = false): Record<string, string> {
+    const spoofIp = pickSpoofIp();
     const sameOrigin =
       !firstRequest &&
       this.lastUrl.includes("psychologytoday.com") &&
       url.includes("psychologytoday.com");
 
     const h: Record<string, string> = {
-      "User-Agent":              this.profile.ua,
-      Accept:                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-      "Accept-Language":         "en-US,en;q=0.9",
-      "Accept-Encoding":         "gzip, deflate, br",
-      "Cache-Control":           "max-age=0",
-      Connection:                "keep-alive",
-      DNT:                       "1",
+      "User-Agent":                this.profile.ua,
+      Accept:                      "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "Accept-Language":           "en-US,en;q=0.9",
+      "Accept-Encoding":           "gzip, deflate, br",
+      "Cache-Control":             "max-age=0",
       "Upgrade-Insecure-Requests": "1",
-      "Sec-Fetch-Dest":          "document",
-      "Sec-Fetch-Mode":          "navigate",
-      "Sec-Fetch-Site":          firstRequest ? "none" : sameOrigin ? "same-origin" : "cross-site",
-      "Sec-Fetch-User":          "?1",
+      "Sec-Fetch-Dest":            "document",
+      "Sec-Fetch-Mode":            "navigate",
+      "Sec-Fetch-Site":            firstRequest ? "none" : sameOrigin ? "same-origin" : "cross-site",
+      "Sec-Fetch-User":            "?1",
+      "X-Forwarded-For":           spoofIp,
+      "X-Real-IP":                 spoofIp,
+      "X-Originating-IP":          spoofIp,
     };
 
     if (this.profile.secCh) {
@@ -202,75 +241,75 @@ export class HttpSession {
       h["sec-ch-ua-platform"] = this.profile.platform;
     }
 
-    if (!firstRequest && this.lastUrl) {
-      h["Referer"] = this.lastUrl;
-    }
-
-    if (this.jar.size > 0) {
-      h["Cookie"] = this.jar.serialize();
-    }
+    if (!firstRequest && this.lastUrl) h["Referer"] = this.lastUrl;
+    if (this.jar.size > 0) h["Cookie"] = this.jar.serialize();
 
     return h;
   }
 
   private async doFetch(url: string, firstRequest = false) {
-    const init: Record<string, unknown> = { headers: this.buildHeaders(url, firstRequest) };
-    if (this.proxy) init.dispatcher = this.proxy;
-    return baseFetch(url, init as Parameters<typeof baseFetch>[1]);
+    return undiciFetch(url, {
+      dispatcher: h2Agent,
+      headers: this.buildHeaders(url, firstRequest),
+    } as Parameters<typeof undiciFetch>[1]);
   }
 
-  /**
-   * Warm up the session: visit homepage → therapist finder to get real cookies
-   * before any listing or profile pages are hit.
-   */
   async warmUp(): Promise<void> {
+    if (this.jar.size > 0) {
+      process.stdout.write(`  [session] skipping warm-up — using restored cookies\n`);
+      return;
+    }
+
     const home = "https://www.psychologytoday.com/";
     process.stdout.write(`  [session] warming up — visiting homepage...\n`);
 
     const r1 = await this.doFetch(home, true);
     this.jar.update(getSetCookies(r1));
-    this.lastUrl = home;
-    await sleep(jitter(this.baseDelay, this.baseDelay * 2));
+    this.lastUrl = r1.url ?? home;
+    await sleep(lognormalDelay(this.baseDelay));
 
     const finder = `https://www.psychologytoday.com/${this.country}/therapists`;
     const r2 = await this.doFetch(finder);
     this.jar.update(getSetCookies(r2));
-    this.lastUrl = finder;
+    this.lastUrl = r2.url ?? finder;
+
+    saveSession(this.jar, this.profile.ua);
     process.stdout.write(
-      `  [session] ready — ${this.profile.ua.slice(0, 50)}... cookies=${this.jar.size}\n`
+      `  [session] ready — ${this.profile.ua.slice(0, 50)}... cookies=${this.jar.size} (saved to disk)\n`
     );
 
-    await sleep(jitter(this.baseDelay, this.baseDelay * 1.5));
+    await sleep(lognormalDelay(this.baseDelay));
   }
 
-  /** Fetch a URL with full browser session, proxy, and retry logic. */
-  async fetch(url: string, retries = 6): Promise<string> {
+  async fetch(url: string, retries = 6): Promise<{ html: string; finalUrl: string }> {
     for (let attempt = 1; attempt <= retries; attempt++) {
-      let res: Awaited<ReturnType<typeof baseFetch>>;
+      const normalizedUrl = normalizePath(url);
+      let res: Awaited<ReturnType<typeof undiciFetch>>;
 
       try {
-        res = await this.doFetch(url);
+        res = await this.doFetch(normalizedUrl);
       } catch (err) {
         if (attempt === retries) throw err;
-        await sleep(jitter(this.baseDelay, this.baseDelay * 3));
+        await sleep(lognormalDelay(this.baseDelay * 2));
         continue;
       }
 
       this.jar.update(getSetCookies(res));
 
       if (res.ok) {
-        this.lastUrl = url;
-        return res.text();
+        this.lastUrl = normalizedUrl;
+        saveSession(this.jar, this.profile.ua);
+        return { html: await res.text(), finalUrl: res.url ?? normalizedUrl };
       }
 
       if (res.status === 403) {
-        const wait = this.baseDelay * Math.pow(2, attempt) + jitter(10_000, 30_000);
+        const wait = this.baseDelay * Math.pow(2, attempt) + lognormalDelay(10_000);
         console.warn(
-          `  [403] attempt ${attempt}/${retries} — rotating IP + UA, cooling off ${(wait / 1000).toFixed(0)}s`
+          `  [403] attempt ${attempt}/${retries} — rotating UA + clearing session, cooling off ${(wait / 1000).toFixed(0)}s`
         );
-        this.rotateIp();
         this.profile = pickProfile();
-        this.jar     = new CookieJar(); // clear cookies — new IP = new session
+        this.jar     = new CookieJar();
+        try { fs.unlinkSync(SESSION_FILE); } catch {}
         if (attempt < retries) await sleep(wait);
         continue;
       }
@@ -278,8 +317,8 @@ export class HttpSession {
       if (res.status === 429 || res.status === 503) {
         const retryAfter = parseInt(res.headers.get("retry-after") ?? "0", 10);
         const wait = retryAfter
-          ? retryAfter * 1000 + jitter(1000, 3000)
-          : this.baseDelay * attempt * 2 + jitter(2000, 8000);
+          ? retryAfter * 1000 + lognormalDelay(2000)
+          : lognormalDelay(this.baseDelay * attempt * 2);
         console.warn(
           `  [${res.status}] attempt ${attempt}/${retries} — waiting ${(wait / 1000).toFixed(0)}s`
         );
@@ -287,9 +326,13 @@ export class HttpSession {
         continue;
       }
 
-      throw new Error(`HTTP ${res.status} for ${url}`);
+      throw new Error(`HTTP ${res.status} for ${normalizedUrl}`);
     }
 
     throw new Error(`Failed to fetch ${url} after ${retries} attempts`);
+  }
+
+  async fetchHtml(url: string, retries = 6): Promise<string> {
+    return (await this.fetch(url, retries)).html;
   }
 }

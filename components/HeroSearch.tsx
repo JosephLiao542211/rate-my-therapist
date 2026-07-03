@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { HeartHandshake } from "lucide-react";
 
 export default function HeroSearch() {
   const router = useRouter();
@@ -16,9 +17,7 @@ export default function HeroSearch() {
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="relative">
-        <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none">
-          🍎
-        </span>
+        <HeartHandshake className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
         <input
           type="text"
           value={q}

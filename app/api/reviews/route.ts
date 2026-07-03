@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     is_anonymous,
   } = body;
 
-  if (!therapist_slug || !rating || !reviewBody) {
+  if (!therapist_slug || !rating) {
     return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
   }
 
@@ -27,8 +27,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Rating must be 1–5." }, { status: 400 });
   }
 
-  if (typeof reviewBody !== "string" || reviewBody.trim().length < 20) {
-    return NextResponse.json({ error: "Review must be at least 20 characters." }, { status: 400 });
+  if (reviewBody != null && typeof reviewBody !== "string") {
+    return NextResponse.json({ error: "Invalid review body." }, { status: 400 });
   }
 
   const therapist = await getTherapistBySlug(therapist_slug);
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     helped_with_goals: helped_with_goals ?? undefined,
     num_sessions: num_sessions ?? undefined,
     tags: tags ?? [],
-    body: reviewBody.trim(),
+    body: typeof reviewBody === "string" ? reviewBody.trim() : "",
   });
 
   return NextResponse.json(review, { status: 201 });

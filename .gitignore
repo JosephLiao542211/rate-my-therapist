@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+lib/data-pipeline/**/.session.json
 
 # debug
 npm-debug.log*

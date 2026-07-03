@@ -111,7 +111,6 @@ export default function AddReviewPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (rating === 0) { setError("Please select a rating."); return; }
-    if (body.trim().length < 20) { setError("Please write at least 20 characters."); return; }
     setError("");
     setSubmitting(true);
     try {
@@ -206,7 +205,7 @@ export default function AddReviewPage() {
         {/* Body */}
         <div>
           <label className="block text-sm font-black text-[#151515] uppercase tracking-wide mb-2">
-            Your Review <span className="text-red-500">*</span>
+            Your Review <span className="text-gray-400 font-normal normal-case">(optional)</span>
           </label>
           <textarea
             value={body}
@@ -215,7 +214,6 @@ export default function AddReviewPage() {
             rows={6}
             className="w-full border border-gray-300 rounded px-4 py-3 text-sm text-[#151515] focus:outline-none focus:border-[#151515] resize-none"
           />
-          <p className="text-xs text-gray-400 mt-1">{body.length} characters (min 20)</p>
         </div>
 
         {/* Anonymous */}
