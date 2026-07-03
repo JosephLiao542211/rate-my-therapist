@@ -5,7 +5,7 @@ import HeroSearch from "@/components/HeroSearch";
 import LocationHero from "@/components/LocationHero";
 import TherapistCard from "@/components/TherapistCard";
 import { SPECIALTIES } from "@/lib/constants";
-import { searchTherapists } from "@/lib/therapists";
+import { searchTherapists, getTopLocations } from "@/lib/therapists";
 
 export const metadata: Metadata = {
   title: "Rate My Therapist — Find & Review Therapists Near You",
@@ -16,7 +16,10 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const { therapists: topTherapists } = await searchTherapists({ limit: 6 });
+  const [{ therapists: topTherapists }, topLocations] = await Promise.all([
+    searchTherapists({ limit: 6 }),
+    getTopLocations(12),
+  ]);
 
   return (
     <>
@@ -48,9 +51,12 @@ export default async function HomePage() {
 
           <HeroSearch />
 
-          <p className="mt-4 text-gray-300 text-sm underline underline-offset-2 cursor-pointer hover:text-white transition">
+          <Link
+            href="/search"
+            className="mt-4 inline-block text-gray-300 text-sm underline underline-offset-2 hover:text-white transition"
+          >
             I want to find a therapist in a different location
-          </p>
+          </Link>
         </div>
       </section>
 
@@ -91,6 +97,30 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Location browse */}
+      {topLocations.length > 0 && (
+        <section className="py-14">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-2xl font-black text-[#151515] mb-6">Browse by Location</h2>
+            <div className="flex flex-wrap gap-2">
+              {topLocations.map((l) => {
+                const stateSlug = l.state_abbr.toLowerCase();
+                const citySlug = l.city.toLowerCase().replace(/\s+/g, "-");
+                return (
+                  <Link
+                    key={`${l.state_abbr}-${l.city}`}
+                    href={`/location/${stateSlug}/${citySlug}`}
+                    className="border border-[#151515] text-[#151515] text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#151515] hover:text-white transition"
+                  >
+                    {l.city}, {l.state_abbr}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Join CTA */}
       <section className="py-16 text-center">

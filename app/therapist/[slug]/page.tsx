@@ -98,6 +98,8 @@ export default async function TherapistPage({ params }: Props) {
   const location = [therapist.city, therapist.state_abbr]
     .filter(Boolean)
     .join(", ");
+  const stateSlug = therapist.state_abbr?.toLowerCase();
+  const citySlug = therapist.city?.toLowerCase().replace(/\s+/g, "-");
 
   // JSON-LD
   const jsonLd = {
@@ -135,8 +137,6 @@ export default async function TherapistPage({ params }: Props) {
     }),
   };
 
-  const stateSlug = therapist.state_abbr?.toLowerCase();
-  const citySlug = therapist.city?.toLowerCase().replace(/\s+/g, "-");
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     ...(stateSlug
@@ -206,18 +206,35 @@ export default async function TherapistPage({ params }: Props) {
               {therapist.specialties.length > 0 && (
                 <>
                   Therapist specializing in{" "}
-                  <strong className="underline underline-offset-2">{therapist.specialties[0]}</strong>
-                  {location && (
+                  <Link
+                    href={`/specialty/${therapist.specialties[0].toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                    className="font-bold underline underline-offset-2 hover:opacity-70 transition"
+                  >
+                    {therapist.specialties[0]}
+                  </Link>
+                  {stateSlug && citySlug && (
                     <>
                       {" "}
-                      in <strong className="underline underline-offset-2">{location}</strong>
+                      in{" "}
+                      <Link
+                        href={`/location/${stateSlug}/${citySlug}`}
+                        className="font-bold underline underline-offset-2 hover:opacity-70 transition"
+                      >
+                        {location}
+                      </Link>
                     </>
                   )}
                 </>
               )}
-              {therapist.specialties.length === 0 && location && (
+              {therapist.specialties.length === 0 && stateSlug && citySlug && (
                 <>
-                  Therapist in <strong className="underline underline-offset-2">{location}</strong>
+                  Therapist in{" "}
+                  <Link
+                    href={`/location/${stateSlug}/${citySlug}`}
+                    className="font-bold underline underline-offset-2 hover:opacity-70 transition"
+                  >
+                    {location}
+                  </Link>
                 </>
               )}
             </p>

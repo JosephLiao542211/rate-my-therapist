@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Script from "next/script";
 import { helveticaNeue } from "./fonts";
 import "./globals.css";
@@ -51,10 +52,10 @@ export default async function RootLayout({
           <footer className="bg-[#151515] text-white py-10">
             <div className="max-w-6xl mx-auto px-4 flex flex-col items-center gap-4">
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-400">
-                <a href="#" className="hover:text-white transition">Help</a>
-                <a href="#" className="hover:text-white transition">Site Guidelines</a>
-                <a href="#" className="hover:text-white transition">Terms &amp; Conditions</a>
-                <a href="#" className="hover:text-white transition">Privacy Policy</a>
+                <Link href="/add-therapist" className="hover:text-white transition">Help</Link>
+                <Link href="/guidelines" className="hover:text-white transition">Site Guidelines</Link>
+                <Link href="/terms" className="hover:text-white transition">Terms &amp; Conditions</Link>
+                <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <span className="font-bold text-white tracking-tight text-xs border border-white px-1.5 py-0.5">RMT</span>

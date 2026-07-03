@@ -150,6 +150,18 @@ export async function getAllLocations(): Promise<{ state_abbr: string; state: st
   return rows;
 }
 
+export async function getTopLocations(limit = 12): Promise<{ state_abbr: string; city: string; count: number }[]> {
+  const { rows } = await pool.query<{ state_abbr: string; city: string; count: string }>(
+    `SELECT state_abbr, city, COUNT(*) AS count FROM therapists
+     WHERE state_abbr IS NOT NULL AND city IS NOT NULL
+     GROUP BY state_abbr, city
+     ORDER BY count DESC
+     LIMIT $1`,
+    [limit]
+  );
+  return rows.map((r) => ({ ...r, count: parseInt(r.count, 10) }));
+}
+
 export async function getAllSpecialties(): Promise<string[]> {
   const { rows } = await pool.query<{ specialty: string }>(
     "SELECT DISTINCT unnest(specialties) AS specialty FROM therapists ORDER BY specialty"
