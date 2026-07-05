@@ -1,14 +1,16 @@
 import type { MetadataRoute } from "next";
 import { getAllTherapistSlugs, getAllLocations, getAllSpecialties } from "@/lib/therapists";
+import { getAllClinicSlugs } from "@/lib/clinics";
 import { SPECIALTIES } from "@/lib/constants";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://rate-my-therapist.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [slugs, locations, dbSpecialties] = await Promise.all([
+  const [slugs, locations, dbSpecialties, clinicSlugs] = await Promise.all([
     getAllTherapistSlugs(),
     getAllLocations(),
     getAllSpecialties(),
+    getAllClinicSlugs(),
   ]);
 
   const allSpecialtySlugs = new Set([
@@ -46,6 +48,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     ...[...allSpecialtySlugs].map((slug) => ({
       url: `${BASE}/specialty/${slug}`,
+      lastModified: new Date(),
+      priority: 0.6,
+      changeFrequency: "weekly" as const,
+    })),
+
+    ...clinicSlugs.map((slug) => ({
+      url: `${BASE}/clinic/${slug}`,
       lastModified: new Date(),
       priority: 0.6,
       changeFrequency: "weekly" as const,

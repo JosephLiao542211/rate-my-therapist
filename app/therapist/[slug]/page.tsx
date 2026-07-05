@@ -381,7 +381,17 @@ export default async function TherapistPage({ params }: Props) {
                     </p>
                     {clinics.map((c) => (
                       <div key={c.id} className="text-sm text-[#151515] mb-2">
-                        {c.name && <p className="font-semibold">{c.name}</p>}
+                        {c.name && (
+                          <p className="font-semibold">
+                            {c.slug ? (
+                              <Link href={`/clinic/${c.slug}`} className="underline underline-offset-2 hover:opacity-70 transition">
+                                {c.name}
+                              </Link>
+                            ) : (
+                              c.name
+                            )}
+                          </p>
+                        )}
                         {c.address_line && <p>{c.address_line}</p>}
                         <p>
                           {[c.city, c.state_abbr, c.postal_code]

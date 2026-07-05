@@ -158,13 +158,15 @@ export async function seedTherapists(
 async function upsertClinic(pool: pg.Pool, loc: PtLocation, defaultCountry: string): Promise<string | null> {
   // Try insert; if there's a conflict on (city, state_abbr, postal_code, name), return existing id
   const address = [loc.addressLine1, loc.addressLine2].filter(Boolean).join(", ") || null;
+  const slug = await generateUniqueClinicSlug(pool, loc.locationName!, loc.cityName);
 
   const { rows } = await pool.query<{ id: string }>(
-    `INSERT INTO clinics (name, address_line, city, state, state_abbr, country_code, postal_code, lat, lon, phone)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+    `INSERT INTO clinics (slug, name, address_line, city, state, state_abbr, country_code, postal_code, lat, lon, phone)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
      ON CONFLICT DO NOTHING
      RETURNING id`,
     [
+      slug,
       loc.locationName!,
       address,
       loc.cityName,
@@ -186,6 +188,21 @@ async function upsertClinic(pool: pg.Pool, loc: PtLocation, defaultCountry: stri
     [loc.locationName, loc.cityName, loc.regionCode || defaultCountry]
   );
   return existing.rows[0]?.id ?? null;
+}
+
+async function generateUniqueClinicSlug(pool: pg.Pool, name: string, city: string): Promise<string> {
+  const base = `${name}-${city}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  let slug = base;
+  let suffix = 2;
+  while (true) {
+    const { rows } = await pool.query("SELECT 1 FROM clinics WHERE slug = $1", [slug]);
+    if (rows.length === 0) return slug;
+    slug = `${base}-${suffix++}`;
+  }
 }
 
 async function generateUniqueSlug(pool: pg.Pool, name: string, city: string): Promise<string> {

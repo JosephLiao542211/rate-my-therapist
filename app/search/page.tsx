@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import TherapistCard from "@/components/TherapistCard";
 import SearchPagination from "@/components/SearchPagination";
 import NearMeFilter from "@/components/NearMeFilter";
 import { searchTherapists, getAllLocations } from "@/lib/therapists";
+import { searchClinics } from "@/lib/clinics";
 import { SPECIALTIES } from "@/lib/constants";
 import { BASE } from "@/lib/seo";
 
@@ -63,7 +65,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const limit = 20;
   const offset = (page - 1) * limit;
 
-  const [{ therapists, total }, locations] = await Promise.all([
+  const [{ therapists, total }, locations, clinics] = await Promise.all([
     searchTherapists({
       q: params.q,
       state: params.state,
@@ -73,6 +75,11 @@ export default async function SearchPage({ searchParams }: Props) {
       offset,
     }),
     getAllLocations(),
+    // Only match clinics on the free-text query — filters like state/specialty
+    // don't apply to clinics, so skip clinic results once those are in play.
+    params.q && !params.state && !params.city && !params.specialty
+      ? searchClinics(params.q, 5)
+      : Promise.resolve([]),
   ]);
 
   const totalPages = Math.ceil(total / limit);
@@ -176,6 +183,28 @@ export default async function SearchPage({ searchParams }: Props) {
       <p className="text-sm text-gray-500 mb-6">
         {total} therapist{total !== 1 ? "s" : ""} found
       </p>
+
+      {clinics.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-sm font-bold text-[#151515] uppercase tracking-widest mb-3">
+            Practices &amp; Clinics
+          </h2>
+          <div className="flex flex-col gap-2">
+            {clinics.map((c) => (
+              <Link
+                key={c.id}
+                href={`/clinic/${c.slug}`}
+                className="block bg-white border border-gray-200 rounded-lg p-4 hover:bg-[#F5F5F5] transition"
+              >
+                <p className="font-bold text-[#151515]">{c.name}</p>
+                <p className="text-sm text-gray-500">
+                  {[c.address_line, c.city, c.state_abbr].filter(Boolean).join(", ")}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {therapists.length === 0 ? (
         <div className="text-center py-24 text-gray-400">

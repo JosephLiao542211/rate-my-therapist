@@ -33,10 +33,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { name } = await params;
   const specialty = slugToSpecialty(name);
+  const therapists = await getTherapistsBySpecialty(specialty);
   return {
     title: `${specialty} Therapists`,
     description: `Find and review ${specialty} therapists. Read real client ratings and reviews to find the right fit.`,
     alternates: { canonical: `${BASE}/specialty/${name}` },
+    // Empty specialties are thin, same-template content — keep them
+    // crawlable but out of the index so they don't drag down site quality.
+    robots: therapists.length === 0 ? { index: false, follow: true } : undefined,
   };
 }
 

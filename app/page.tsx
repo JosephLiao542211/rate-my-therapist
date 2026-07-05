@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { headers } from "next/headers";
 import HeroSearch from "@/components/HeroSearch";
 import LocationHero from "@/components/LocationHero";
 import TherapistCard from "@/components/TherapistCard";
 import { SPECIALTIES } from "@/lib/constants";
 import { searchTherapists, getTopLocations } from "@/lib/therapists";
+import { getTopClinics } from "@/lib/clinics";
 
 export const metadata: Metadata = {
   title: "Rate My Therapist — Find & Review Therapists Near You",
@@ -13,13 +15,27 @@ export const metadata: Metadata = {
     "Browse thousands of honest therapist reviews. Find the right mental health professional by specialty, city, and rating.",
 };
 
-export const revalidate = 3600;
+// Personalizes "Top-Rated Therapists" by visitor IP city (Vercel geo header),
+// so the page must render per-request rather than via ISR.
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [{ therapists: topTherapists }, topLocations] = await Promise.all([
-    searchTherapists({ limit: 6 }),
+  const hdrs = await headers();
+  const rawGeoCity = hdrs.get("x-vercel-ip-city");
+  const geoCity = rawGeoCity ? decodeURIComponent(rawGeoCity) : null;
+
+  const [geoResult, topLocations, topClinics] = await Promise.all([
+    geoCity ? searchTherapists({ city: geoCity, limit: 6 }) : Promise.resolve({ therapists: [], total: 0 }),
     getTopLocations(12),
+    getTopClinics(12),
   ]);
+
+  let topTherapists = geoResult.therapists;
+  let sectionCity = topTherapists.length > 0 ? geoCity : null;
+  if (topTherapists.length === 0) {
+    const fallback = await searchTherapists({ limit: 6 });
+    topTherapists = fallback.therapists;
+  }
 
   return (
     <>
@@ -63,7 +79,9 @@ export default async function HomePage() {
       {/* Top-rated therapists */}
       {topTherapists.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 py-14">
-          <h2 className="text-2xl font-black text-[#151515] mb-6">Top-Rated Therapists</h2>
+          <h2 className="text-2xl font-black text-[#151515] mb-6">
+            {sectionCity ? `Top-Rated Therapists in ${sectionCity}` : "Top-Rated Therapists"}
+          </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {topTherapists.map((t) => (
               <TherapistCard key={t.id} therapist={t} />
@@ -117,6 +135,27 @@ export default async function HomePage() {
                   </Link>
                 );
               })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Clinic browse */}
+      {topClinics.length > 0 && (
+        <section className="bg-white border-t border-b border-gray-200 py-14">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-2xl font-black text-[#151515] mb-6">Browse by Clinic</h2>
+            <div className="flex flex-wrap gap-2">
+              {topClinics.map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/clinic/${c.slug}`}
+                  className="border border-[#151515] text-[#151515] text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#151515] hover:text-white transition"
+                >
+                  {c.name}
+                  {c.city ? `, ${c.city}` : ""}
+                </Link>
+              ))}
             </div>
           </div>
         </section>

@@ -37,6 +37,7 @@ export interface Therapist {
 
 export interface Clinic {
   id: string;
+  slug: string | null;
   name: string | null;
   address_line: string | null;
   city: string | null;
