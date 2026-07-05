@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-const COOKIE_NAME = "rmt_city";
+import { LOCATION_COOKIE as COOKIE_NAME } from "@/lib/geo";
 
 function getCookie(name: string): string | null {
   const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));

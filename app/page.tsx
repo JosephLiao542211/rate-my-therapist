@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import HeroSearch from "@/components/HeroSearch";
 import LocationHero from "@/components/LocationHero";
 import TherapistCard from "@/components/TherapistCard";
 import { SPECIALTIES } from "@/lib/constants";
 import { searchTherapists, getTopLocations } from "@/lib/therapists";
 import { getTopClinics } from "@/lib/clinics";
+import { LOCATION_COOKIE } from "@/lib/geo";
 
 export const metadata: Metadata = {
   title: "Rate My Therapist — Find & Review Therapists Near You",
@@ -15,14 +16,14 @@ export const metadata: Metadata = {
     "Browse thousands of honest therapist reviews. Find the right mental health professional by specialty, city, and rating.",
 };
 
-// Personalizes "Top-Rated Therapists" by visitor IP city (Vercel geo header),
-// so the page must render per-request rather than via ISR.
+// Personalizes "Top-Rated Therapists" once the visitor has granted browser
+// geolocation (see LocationHero, which sets the rmt_city cookie) — reading
+// a cookie forces this page to render per-request rather than via ISR.
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const hdrs = await headers();
-  const rawGeoCity = hdrs.get("x-vercel-ip-city");
-  const geoCity = rawGeoCity ? decodeURIComponent(rawGeoCity) : null;
+  const cookieStore = await cookies();
+  const geoCity = cookieStore.get(LOCATION_COOKIE)?.value ?? null;
 
   const [geoResult, topLocations, topClinics] = await Promise.all([
     geoCity ? searchTherapists({ city: geoCity, limit: 6 }) : Promise.resolve({ therapists: [], total: 0 }),
