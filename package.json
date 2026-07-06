@@ -12,7 +12,8 @@
     "db:clear": "tsx --env-file=.env.local scripts/clear-db.ts",
     "db:seed-reviews": "tsx --env-file=.env.local scripts/seed-fake-reviews.ts",
     "db:undo-seed-reviews": "tsx --env-file=.env.local scripts/undo-seed-fake-reviews.ts",
-    "scrape:all": "tsx --env-file=.env.local scripts/scrape-all.ts"
+    "scrape:all": "tsx --env-file=.env.local scripts/scrape-all.ts",
+    "seed:osm-clinics": "tsx --env-file=.env.local scripts/seed-clinics-from-osm.ts"
   },
   "dependencies": {
     "@auth/pg-adapter": "^1.11.2",
