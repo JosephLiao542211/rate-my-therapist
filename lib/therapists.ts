@@ -33,6 +33,7 @@ export interface Therapist {
   pt_uuid: string | null;
   education_institution: string | null;
   education_degree: string | null;
+  status: "pending" | "approved" | "rejected";
 }
 
 export interface Clinic {
@@ -71,7 +72,7 @@ export async function searchTherapists(opts: {
 }): Promise<{ therapists: Therapist[]; total: number }> {
   const { q, state, city, specialty, limit = 20, offset = 0 } = opts;
 
-  const conditions: string[] = [];
+  const conditions: string[] = ["status = 'approved'"];
   const values: (string | number)[] = [];
   let idx = 1;
 
@@ -96,7 +97,7 @@ export async function searchTherapists(opts: {
     idx++;
   }
 
-  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+  const where = `WHERE ${conditions.join(" AND ")}`;
 
   const countRes = await pool.query<{ count: string }>(
     `SELECT COUNT(*) FROM therapists ${where}`,
@@ -122,13 +123,13 @@ export async function getTherapistsByLocation(
 ): Promise<Therapist[]> {
   if (city) {
     const { rows } = await pool.query<Therapist>(
-      "SELECT * FROM therapists WHERE state_abbr = $1 AND city ILIKE $2 ORDER BY avg_rating DESC",
+      "SELECT * FROM therapists WHERE state_abbr = $1 AND city ILIKE $2 AND status = 'approved' ORDER BY avg_rating DESC",
       [state_abbr.toUpperCase(), city]
     );
     return rows;
   }
   const { rows } = await pool.query<Therapist>(
-    "SELECT * FROM therapists WHERE state_abbr = $1 ORDER BY avg_rating DESC LIMIT 50",
+    "SELECT * FROM therapists WHERE state_abbr = $1 AND status = 'approved' ORDER BY avg_rating DESC LIMIT 50",
     [state_abbr.toUpperCase()]
   );
   return rows;
@@ -136,7 +137,7 @@ export async function getTherapistsByLocation(
 
 export async function getTherapistsBySpecialty(specialty: string): Promise<Therapist[]> {
   const { rows } = await pool.query<Therapist>(
-    "SELECT * FROM therapists WHERE $1 = ANY(specialties) ORDER BY avg_rating DESC LIMIT 50",
+    "SELECT * FROM therapists WHERE $1 = ANY(specialties) AND status = 'approved' ORDER BY avg_rating DESC LIMIT 50",
     [specialty]
   );
   return rows;
@@ -145,7 +146,7 @@ export async function getTherapistsBySpecialty(specialty: string): Promise<Thera
 export async function getAllLocations(): Promise<{ state_abbr: string; state: string; city: string }[]> {
   const { rows } = await pool.query<{ state_abbr: string; state: string; city: string }>(
     `SELECT DISTINCT state_abbr, state, city FROM therapists
-     WHERE state_abbr IS NOT NULL AND city IS NOT NULL
+     WHERE state_abbr IS NOT NULL AND city IS NOT NULL AND status = 'approved'
      ORDER BY state_abbr, city`
   );
   return rows;
@@ -154,7 +155,7 @@ export async function getAllLocations(): Promise<{ state_abbr: string; state: st
 export async function getTopLocations(limit = 12): Promise<{ state_abbr: string; city: string; count: number }[]> {
   const { rows } = await pool.query<{ state_abbr: string; city: string; count: string }>(
     `SELECT state_abbr, city, COUNT(*) AS count FROM therapists
-     WHERE state_abbr IS NOT NULL AND city IS NOT NULL
+     WHERE state_abbr IS NOT NULL AND city IS NOT NULL AND status = 'approved'
      GROUP BY state_abbr, city
      ORDER BY count DESC
      LIMIT $1`,
@@ -165,14 +166,36 @@ export async function getTopLocations(limit = 12): Promise<{ state_abbr: string;
 
 export async function getAllSpecialties(): Promise<string[]> {
   const { rows } = await pool.query<{ specialty: string }>(
-    "SELECT DISTINCT unnest(specialties) AS specialty FROM therapists ORDER BY specialty"
+    "SELECT DISTINCT unnest(specialties) AS specialty FROM therapists WHERE status = 'approved' ORDER BY specialty"
   );
   return rows.map((r) => r.specialty);
 }
 
 export async function getAllTherapistSlugs(): Promise<string[]> {
-  const { rows } = await pool.query<{ slug: string }>("SELECT slug FROM therapists");
+  const { rows } = await pool.query<{ slug: string }>(
+    "SELECT slug FROM therapists WHERE status = 'approved'"
+  );
   return rows.map((r) => r.slug);
+}
+
+// ── Admin: approval workflow ────────────────────────────────────────────────
+
+export async function getPendingTherapists(): Promise<Therapist[]> {
+  const { rows } = await pool.query<Therapist>(
+    "SELECT * FROM therapists WHERE status = 'pending' ORDER BY created_at ASC"
+  );
+  return rows;
+}
+
+export async function setTherapistStatus(
+  id: string,
+  status: "pending" | "approved" | "rejected"
+): Promise<Therapist | null> {
+  const { rows } = await pool.query<Therapist>(
+    "UPDATE therapists SET status = $2 WHERE id = $1 RETURNING *",
+    [id, status]
+  );
+  return rows[0] ?? null;
 }
 
 export async function getClinicsForTherapist(therapist_id: string): Promise<Clinic[]> {
@@ -216,12 +239,14 @@ export async function createTherapist(data: {
        slug, name, specialties, city, state, state_abbr, practice_name,
        bio, phone, email, website, credentials, languages,
        telehealth, in_person, sliding_scale, individual_session_cost,
-       modalities, issues, insurance_accepted, years_in_practice, accepting_clients
+       modalities, issues, insurance_accepted, years_in_practice, accepting_clients,
+       status
      ) VALUES (
        $1,$2,$3,$4,$5,$6,$7,
        $8,$9,$10,$11,$12,$13,
        $14,$15,$16,$17,
-       $18,$19,$20,$21,$22
+       $18,$19,$20,$21,$22,
+       'pending'
      )
      RETURNING *`,
     [

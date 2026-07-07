@@ -17,9 +17,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: "/auth/signin",
   },
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+        const { rows } = await pool.query<{ role: string }>(
+          "SELECT role FROM users WHERE id = $1",
+          [user.id]
+        );
+        session.user.role = rows[0]?.role ?? "user";
       }
       return session;
     },

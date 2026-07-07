@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createTherapist } from "@/lib/therapists";
+import { logAudit } from "@/lib/audit";
+import { auth } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -18,6 +20,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const session = await auth();
   const therapist = await createTherapist({
     name: name.trim(),
     specialties: Array.isArray(specialties) ? specialties : [],
@@ -40,6 +43,15 @@ export async function POST(req: NextRequest) {
     insurance_accepted: Array.isArray(insurance_accepted) ? insurance_accepted : [],
     years_in_practice: typeof years_in_practice === "number" ? years_in_practice : undefined,
     accepting_clients: typeof accepting_clients === "boolean" ? accepting_clients : true,
+  });
+
+  await logAudit({
+    actor_user_id: session?.user?.id ?? null,
+    actor_email: session?.user?.email ?? null,
+    action: "therapist.submitted",
+    entity_type: "therapist",
+    entity_id: therapist.id,
+    entity_label: therapist.name,
   });
 
   return NextResponse.json(therapist, { status: 201 });

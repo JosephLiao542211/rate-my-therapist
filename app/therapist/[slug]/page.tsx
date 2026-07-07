@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${therapist.name} Reviews`,
     description: `Read ${therapist.review_count} reviews of ${therapist.name}, a ${specialty} therapist in ${location}. Average rating: ${therapist.avg_rating}/5.`,
     alternates: { canonical: `${BASE}/therapist/${slug}` },
-    robots: isThin ? { index: false, follow: true } : undefined,
+    robots: isThin || therapist.status !== "approved" ? { index: false, follow: true } : undefined,
   };
 }
 
@@ -156,6 +156,16 @@ export default async function TherapistPage({ params }: Props) {
       />
 
       <div className="max-w-6xl mx-auto px-4 py-10">
+        {therapist.status === "pending" && (
+          <div className="mb-6 bg-amber-50 border border-amber-300 text-amber-800 text-sm rounded-lg px-4 py-3">
+            This listing is awaiting review by our team and isn&apos;t visible in search yet.
+          </div>
+        )}
+        {therapist.status === "rejected" && (
+          <div className="mb-6 bg-red-50 border border-red-300 text-red-800 text-sm rounded-lg px-4 py-3">
+            This listing was not approved and isn&apos;t visible in search.
+          </div>
+        )}
         <Breadcrumbs items={breadcrumbItems} />
         <div className="flex flex-col lg:flex-row gap-8">
           {/* LEFT — profile */}

@@ -57,6 +57,17 @@ export default function Navbar() {
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg py-1 text-sm z-50">
                   <p className="px-4 py-2 text-gray-400 text-xs truncate">{session.user?.email}</p>
+                  {session.user?.role === "admin" && (
+                    <>
+                      <Link
+                        href="/admin"
+                        className="block px-4 py-2 hover:bg-gray-50 font-semibold"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                    </>
+                  )}
                   <hr />
                   <button
                     onClick={() => { signOut(); setMenuOpen(false); }}

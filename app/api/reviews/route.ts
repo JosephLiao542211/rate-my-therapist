@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getTherapistBySlug } from "@/lib/therapists";
 import { createReview } from "@/lib/reviews";
+import { logAudit } from "@/lib/audit";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -47,6 +48,15 @@ export async function POST(req: NextRequest) {
     num_sessions: num_sessions ?? undefined,
     tags: tags ?? [],
     body: typeof reviewBody === "string" ? reviewBody.trim() : "",
+  });
+
+  await logAudit({
+    actor_user_id: session?.user?.id ?? null,
+    actor_email: session?.user?.email ?? null,
+    action: "review.created",
+    entity_type: "review",
+    entity_id: review.id,
+    entity_label: `${review.rating}★ for ${therapist.name}`,
   });
 
   return NextResponse.json(review, { status: 201 });

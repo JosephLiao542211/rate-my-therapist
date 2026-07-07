@@ -87,6 +87,32 @@ export async function voteOnReview(
   );
 }
 
+export async function getAllReviews(opts: {
+  limit?: number;
+  offset?: number;
+} = {}): Promise<{ reviews: (Review & { therapist_name: string; therapist_slug: string })[]; total: number }> {
+  const { limit = 50, offset = 0 } = opts;
+  const countRes = await pool.query<{ count: string }>("SELECT COUNT(*) FROM reviews");
+  const { rows } = await pool.query<Review & { therapist_name: string; therapist_slug: string }>(
+    `SELECT r.*, u.name AS author_name, t.name AS therapist_name, t.slug AS therapist_slug
+     FROM reviews r
+     LEFT JOIN users u ON r.user_id = u.id
+     JOIN therapists t ON r.therapist_id = t.id
+     ORDER BY r.created_at DESC
+     LIMIT $1 OFFSET $2`,
+    [limit, offset]
+  );
+  return { reviews: rows, total: parseInt(countRes.rows[0].count, 10) };
+}
+
+export async function deleteReview(id: string): Promise<Review | null> {
+  const { rows } = await pool.query<Review>(
+    "DELETE FROM reviews WHERE id = $1 RETURNING *",
+    [id]
+  );
+  return rows[0] ?? null;
+}
+
 export async function getUserVotes(
   review_ids: string[],
   user_id: string
