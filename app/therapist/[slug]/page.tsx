@@ -291,9 +291,12 @@ export default async function TherapistPage({ params }: Props) {
               </button>
             </div>
 
-            <p className="text-sm font-semibold underline underline-offset-2 cursor-pointer hover:opacity-70 transition">
+            <Link
+              href={`/therapist/${slug}/claim`}
+              className="inline-block text-sm font-semibold underline underline-offset-2 hover:opacity-70 transition"
+            >
               I&apos;m {therapist.name.split(" ")[0]}
-            </p>
+            </Link>
 
             {/* Extra info — collapsed by default */}
             <details className="mt-5 border-t border-gray-200 pt-4 group">

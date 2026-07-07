@@ -52,7 +52,8 @@ export default async function RootLayout({
           <footer className="bg-[#151515] text-white py-10">
             <div className="max-w-6xl mx-auto px-4 flex flex-col items-center gap-4">
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-400">
-                <Link href="/add-therapist" className="hover:text-white transition">Help</Link>
+                <Link href="/feedback" className="hover:text-white transition">Help/Feedback</Link>
+                <Link href="/add-therapist" className="hover:text-white transition">Add a Therapist</Link>
                 <Link href="/guidelines" className="hover:text-white transition">Site Guidelines</Link>
                 <Link href="/terms" className="hover:text-white transition">Terms &amp; Conditions</Link>
                 <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>

@@ -49,6 +49,7 @@ export interface DashboardMetrics {
   totalUsers: number;
   avgRating: number | null;
   therapistsLast7Days: number;
+  openRequests: number;
 }
 
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
@@ -62,6 +63,7 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
     total_users: string;
     avg_rating: string | null;
     therapists_last_7_days: string;
+    open_requests: string;
   }>(`
     SELECT
       (SELECT COUNT(*) FROM therapists) AS total_therapists,
@@ -72,7 +74,8 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
       (SELECT COUNT(*) FROM reviews WHERE created_at > NOW() - INTERVAL '7 days') AS reviews_last_7_days,
       (SELECT COUNT(*) FROM users) AS total_users,
       (SELECT ROUND(AVG(rating)::numeric, 2) FROM reviews) AS avg_rating,
-      (SELECT COUNT(*) FROM therapists WHERE created_at > NOW() - INTERVAL '7 days') AS therapists_last_7_days
+      (SELECT COUNT(*) FROM therapists WHERE created_at > NOW() - INTERVAL '7 days') AS therapists_last_7_days,
+      (SELECT COUNT(*) FROM requests WHERE status = 'open') AS open_requests
   `);
   const r = rows[0];
   return {
@@ -85,5 +88,6 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
     totalUsers: parseInt(r.total_users, 10),
     avgRating: r.avg_rating ? parseFloat(r.avg_rating) : null,
     therapistsLast7Days: parseInt(r.therapists_last_7_days, 10),
+    openRequests: parseInt(r.open_requests, 10),
   };
 }

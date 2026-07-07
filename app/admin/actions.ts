@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/admin";
 import { setTherapistStatus } from "@/lib/therapists";
 import { deleteReview } from "@/lib/reviews";
 import { setUserRole } from "@/lib/admin-data";
+import { resolveRequest } from "@/lib/requests";
 import { logAudit } from "@/lib/audit";
 
 export async function approveTherapistAction(id: string) {
@@ -54,6 +55,22 @@ export async function deleteReviewAction(id: string) {
     metadata: { body: review.body?.slice(0, 200) },
   });
   revalidatePath("/admin/reviews");
+  revalidatePath("/admin");
+}
+
+export async function resolveRequestAction(id: string) {
+  const admin = await requireAdmin();
+  const request = await resolveRequest(id);
+  if (!request) return;
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: "request.resolved",
+    entity_type: "request",
+    entity_id: request.id,
+    entity_label: request.therapist_name ? `Claim: ${request.therapist_name}` : "Feedback",
+  });
+  revalidatePath("/admin/requests");
   revalidatePath("/admin");
 }
 
