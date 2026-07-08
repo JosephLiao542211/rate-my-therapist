@@ -3,6 +3,7 @@ import { getAllTherapistSlugs, getAllLocations, getAllSpecialties } from "@/lib/
 import { getAllClinicSlugs } from "@/lib/clinics";
 import { getAllPostSlugs } from "@/lib/posts";
 import { SPECIALTIES } from "@/lib/constants";
+import { HELP_ARTICLES } from "@/lib/help";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://rate-my-therapist.com";
 
@@ -35,6 +36,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/add-therapist`, lastModified: new Date(), priority: 0.6 },
     { url: `${BASE}/tools`, lastModified: new Date(), priority: 0.8 },
     { url: `${BASE}/blog`, lastModified: new Date(), priority: 0.7 },
+    { url: `${BASE}/help`, lastModified: new Date(), priority: 0.7 },
+
+    ...HELP_ARTICLES.map((a) => ({
+      url: `${BASE}/help/${a.slug}`,
+      lastModified: new Date(),
+      priority: 0.6,
+      changeFrequency: "monthly" as const,
+    })),
 
     ...TOOL_SLUGS.map((slug) => ({
       url: `${BASE}/tools/${slug}`,

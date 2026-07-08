@@ -91,7 +91,7 @@ export default function PrivacyPolicyPage() {
             <li>You can sign out at any time from the account menu.</li>
             <li>
               You can request deletion of your account data by contacting us via the{" "}
-              <a href="/feedback" className="underline hover:text-[#151515]">Help/Feedback</a> page.
+              <a href="/feedback" className="underline hover:text-[#151515]">Feedback</a> page.
             </li>
           </ul>
         </section>
@@ -116,7 +116,7 @@ export default function PrivacyPolicyPage() {
           <h2 className="text-lg font-bold text-[#151515] mb-2">9. Contact</h2>
           <p>
             Questions about this policy? Reach out through our{" "}
-            <a href="/feedback" className="underline hover:text-[#151515]">Help/Feedback</a> page.
+            <a href="/feedback" className="underline hover:text-[#151515]">Feedback</a> page.
           </p>
         </section>
       </div>

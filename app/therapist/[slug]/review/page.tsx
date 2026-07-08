@@ -190,7 +190,7 @@ export default function AddReviewPage() {
                 key={tag}
                 type="button"
                 onClick={() => toggleTag(tag)}
-                className={`text-[10px] font-black uppercase tracking-widest border rounded-full px-3 py-1 transition ${
+                className={`text-sm font-normal border rounded-full px-3 py-1 transition ${
                   tags.includes(tag)
                     ? "bg-[#151515] border-[#151515] text-white"
                     : "border-gray-300 text-[#151515] hover:border-[#151515]"
@@ -207,6 +207,10 @@ export default function AddReviewPage() {
           <label className="block text-sm font-black text-[#151515] uppercase tracking-wide mb-2">
             Your Review <span className="text-gray-400 font-normal normal-case">(optional)</span>
           </label>
+          <p className="text-xs text-gray-500 mb-2">
+            Discuss the therapist&apos;s professional abilities, including communication style and ability to help you
+            work toward your goals.
+          </p>
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
@@ -214,6 +218,27 @@ export default function AddReviewPage() {
             rows={6}
             className="w-full border border-gray-300 rounded px-4 py-3 text-sm text-[#151515] focus:outline-none focus:border-[#151515] resize-none"
           />
+
+          <div className="mt-3 border border-gray-200 rounded-lg p-4 bg-gray-50">
+            <p className="text-xs font-black text-[#151515] uppercase tracking-wide mb-2">Guidelines</p>
+            <ul className="list-disc pl-5 space-y-1 text-xs text-gray-600">
+              <li>Your rating could be removed if you use profanity or derogatory terms.</li>
+              <li>Don&apos;t claim that the therapist shows bias or favoritism for or against clients.</li>
+              <li>Don&apos;t forget to proofread!</li>
+            </ul>
+            <p className="text-xs font-black text-red-700 uppercase tracking-wide mt-3 mb-1">
+              Do not use this form to report abuse, ethical violations, or illegal conduct
+            </p>
+            <p className="text-xs text-red-700 leading-relaxed">
+              This site is not equipped to review or act on serious allegations (e.g. abuse, fraud, sexual misconduct,
+              or other illegal or dangerous behavior). If you have experienced or witnessed something like this,
+              please report it directly to the appropriate licensing board, law enforcement, or emergency services —
+              not in a review here.
+            </p>
+            <a href="/guidelines" className="text-xs underline text-gray-500 hover:text-[#151515] mt-2 inline-block">
+              View all guidelines
+            </a>
+          </div>
         </div>
 
         {/* Anonymous */}
@@ -228,6 +253,14 @@ export default function AddReviewPage() {
         </label>
 
         {error && <p className="text-sm text-red-600 font-bold">{error}</p>}
+
+        <p className="text-xs text-gray-500 leading-relaxed">
+          By clicking &quot;Submit Rating&quot;, I acknowledge that I have read and agree to Rate My Therapist&apos;s{" "}
+          <a href="/guidelines" className="underline hover:text-[#151515]">Site Guidelines</a>,{" "}
+          <a href="/terms" className="underline hover:text-[#151515]">Terms &amp; Conditions</a>, and{" "}
+          <a href="/privacy" className="underline hover:text-[#151515]">Privacy Policy</a>. Submitted data becomes
+          the property of Rate My Therapist.
+        </p>
 
         <button
           type="submit"

@@ -54,7 +54,8 @@ export default async function RootLayout({
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-400">
                 <Link href="/tools" className="hover:text-white transition">Free Tools</Link>
                 <Link href="/blog" className="hover:text-white transition">Blog</Link>
-                <Link href="/feedback" className="hover:text-white transition">Help/Feedback</Link>
+                <Link href="/help" className="hover:text-white transition">Help Center</Link>
+                <Link href="/feedback" className="hover:text-white transition">Feedback</Link>
                 <Link href="/add-therapist" className="hover:text-white transition">Add a Therapist</Link>
                 <Link href="/guidelines" className="hover:text-white transition">Site Guidelines</Link>
                 <Link href="/terms" className="hover:text-white transition">Terms &amp; Conditions</Link>

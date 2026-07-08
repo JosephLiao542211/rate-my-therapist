@@ -63,9 +63,10 @@ export default function FeedbackPage() {
 
   return (
     <div className="max-w-lg mx-auto px-4 py-12">
-      <h1 className="text-2xl font-black text-[#151515] mb-1">Help &amp; Feedback</h1>
+      <h1 className="text-2xl font-black text-[#151515] mb-1">Feedback</h1>
       <p className="text-sm text-gray-500 mb-8">
-        Found a bug, have a suggestion, or need help with something? Let us know.
+        Found a bug or have a suggestion? Let us know. Looking for answers instead? Check the{" "}
+        <a href="/help" className="underline hover:text-[#151515]">Help Center</a>.
       </p>
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col gap-5">

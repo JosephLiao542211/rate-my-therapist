@@ -100,7 +100,7 @@ export default function TermsPage() {
           <h2 className="text-lg font-bold text-[#151515] mb-2">10. Contact</h2>
           <p>
             Questions about these Terms? Reach out through our{" "}
-            <a href="/feedback" className="underline hover:text-[#151515]">Help/Feedback</a> page.
+            <a href="/feedback" className="underline hover:text-[#151515]">Feedback</a> page.
           </p>
         </section>
       </div>
