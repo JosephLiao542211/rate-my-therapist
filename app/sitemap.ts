@@ -1,8 +1,14 @@
 import type { MetadataRoute } from "next";
-import { getAllTherapistSlugs, getAllLocations, getAllSpecialties } from "@/lib/therapists";
+import {
+  getAllTherapistSlugs,
+  getAllLocations,
+  getAllSpecialties,
+  getLocationSpecialtyCombos,
+} from "@/lib/therapists";
 import { getAllClinicSlugs } from "@/lib/clinics";
 import { getAllPostSlugs } from "@/lib/posts";
 import { SPECIALTIES } from "@/lib/constants";
+import { specialtyToSlug } from "@/lib/specialties";
 import { HELP_ARTICLES } from "@/lib/help";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://rate-my-therapist.com";
@@ -15,12 +21,13 @@ const TOOL_SLUGS = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [slugs, locations, dbSpecialties, clinicSlugs, postSlugs] = await Promise.all([
+  const [slugs, locations, dbSpecialties, clinicSlugs, postSlugs, locationSpecialtyCombos] = await Promise.all([
     getAllTherapistSlugs(),
     getAllLocations(),
     getAllSpecialties(),
     getAllClinicSlugs(),
     getAllPostSlugs(),
+    getLocationSpecialtyCombos(),
   ]);
 
   const allSpecialtySlugs = new Set([
@@ -91,6 +98,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${BASE}/clinic/${slug}`,
       lastModified: new Date(),
       priority: 0.6,
+      changeFrequency: "weekly" as const,
+    })),
+
+    ...locationSpecialtyCombos.map((c) => ({
+      url: `${BASE}/location/${c.state_abbr.toLowerCase()}/${c.city.toLowerCase().replace(/\s+/g, "-")}/${specialtyToSlug(c.specialty)}`,
+      lastModified: new Date(),
+      priority: 0.5,
       changeFrequency: "weekly" as const,
     })),
   ];

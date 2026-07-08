@@ -1,4 +1,5 @@
 import pool from "./db";
+import { SPECIALTIES } from "./constants";
 
 export interface Therapist {
   id: string;
@@ -141,6 +142,36 @@ export async function getTherapistsBySpecialty(specialty: string): Promise<Thera
     [specialty]
   );
   return rows;
+}
+
+export async function getTherapistsByLocationAndSpecialty(
+  state_abbr: string,
+  city: string,
+  specialty: string
+): Promise<Therapist[]> {
+  const { rows } = await pool.query<Therapist>(
+    `SELECT * FROM therapists
+     WHERE state_abbr = $1 AND city ILIKE $2 AND $3 = ANY(specialties) AND status = 'approved'
+     ORDER BY avg_rating DESC`,
+    [state_abbr.toUpperCase(), city, specialty]
+  );
+  return rows;
+}
+
+// Restricted to the curated SPECIALTIES list (not raw DB tags, which include
+// hundreds of free-text values like "Adults" or "Coping Skills") — otherwise
+// this cross product explodes into tens of thousands of thin combo pages.
+export async function getLocationSpecialtyCombos(): Promise<
+  { state_abbr: string; city: string; specialty: string }[]
+> {
+  const { rows } = await pool.query<{ state_abbr: string; city: string; specialty: string }>(
+    `SELECT DISTINCT state_abbr, city, unnest(specialties) AS specialty
+     FROM therapists
+     WHERE state_abbr IS NOT NULL AND city IS NOT NULL AND status = 'approved'
+       AND specialties && $1`,
+    [SPECIALTIES]
+  );
+  return rows.filter((r) => SPECIALTIES.includes(r.specialty));
 }
 
 export async function getAllLocations(): Promise<{ state_abbr: string; state: string; city: string }[]> {

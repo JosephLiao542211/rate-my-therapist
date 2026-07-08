@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getTherapistsByLocation, getAllLocations } from "@/lib/therapists";
 import TherapistCard from "@/components/TherapistCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import Faq from "@/components/Faq";
 import { BASE } from "@/lib/seo";
 
 export const revalidate = 86400;
@@ -23,10 +24,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state, city } = await params;
   const cityName = city.replace(/-/g, " ");
   const stateUpper = state.toUpperCase();
+  const therapists = await getTherapistsByLocation(stateUpper, cityName);
   return {
     title: `Therapists in ${cityName}, ${stateUpper}`,
     description: `Find and review therapists in ${cityName}, ${stateUpper}. Read real client reviews, compare ratings, and find the right mental health professional.`,
     alternates: { canonical: `${BASE}/location/${state}/${city}` },
+    // Empty cities are thin, same-template content — keep them
+    // crawlable but out of the index so they don't drag down site quality.
+    robots: therapists.length === 0 ? { index: false, follow: true } : undefined,
   };
 }
 
@@ -50,8 +55,12 @@ export default async function CityPage({ params }: Props) {
       <h1 className="text-3xl font-extrabold text-gray-900 mb-2 capitalize">
         Therapists in {cityName}, {stateUpper}
       </h1>
-      <p className="text-gray-500 mb-10">
+      <p className="text-gray-500 mb-4">
         {therapists.length} therapist{therapists.length !== 1 ? "s" : ""} found
+      </p>
+      <p className="text-sm text-gray-600 max-w-2xl mb-10">
+        Browse client-reviewed therapists practicing in {cityName}, {stateUpper}. Ratings and reviews come
+        from real clients, so you can compare communication style, specialties, and fit before booking.
       </p>
 
       {therapists.length === 0 ? (
@@ -71,6 +80,23 @@ export default async function CityPage({ params }: Props) {
           ))}
         </div>
       )}
+
+      <Faq
+        items={[
+          {
+            question: `How do I find a therapist in ${cityName}, ${stateUpper}?`,
+            answer: `Browse the client-reviewed therapists above, or filter by specialty to find someone who focuses on what you're looking for. Each profile shows ratings and reviews from real clients.`,
+          },
+          {
+            question: `Do therapists in ${cityName} offer telehealth?`,
+            answer: `Many do. Check individual therapist profiles for whether they offer telehealth, in-person sessions, or both.`,
+          },
+          {
+            question: "What does therapy typically cost?",
+            answer: "Cost varies by therapist, insurance coverage, and whether they offer a sliding scale. Check individual profiles for pricing and insurance details.",
+          },
+        ]}
+      />
     </div>
   );
 }
