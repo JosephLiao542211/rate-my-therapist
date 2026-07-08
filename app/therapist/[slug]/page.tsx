@@ -436,17 +436,6 @@ export default async function TherapistPage({ params }: Props) {
                   </div>
                 )}
 
-                {/* Bio snippet */}
-                {therapist.bio && (
-                  <div className="border-t border-gray-200 pt-4">
-                    <p className="text-xs font-black uppercase tracking-widest text-gray-500 mb-2">
-                      About
-                    </p>
-                    <p className="text-sm text-gray-700 leading-relaxed line-clamp-5">
-                      {therapist.bio}
-                    </p>
-                  </div>
-                )}
               </div>
             </details>
           </div>
