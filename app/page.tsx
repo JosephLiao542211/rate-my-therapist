@@ -162,6 +162,34 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* Free tools */}
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-black text-[#151515]">Free Tools</h2>
+          <Link href="/tools" className="text-sm font-bold text-[#0057FF] hover:underline">
+            View all →
+          </Link>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link href="/tools/therapist-match-quiz" className="block bg-white border border-gray-200 rounded-lg p-5 hover:border-[#151515] transition">
+            <p className="font-black text-[#151515] mb-1">Therapist Match Quiz</p>
+            <p className="text-xs text-gray-500">Get matched with therapists near you.</p>
+          </Link>
+          <Link href="/tools/therapy-style-quiz" className="block bg-white border border-gray-200 rounded-lg p-5 hover:border-[#151515] transition">
+            <p className="font-black text-[#151515] mb-1">Therapy Style Quiz</p>
+            <p className="text-xs text-gray-500">Find which approach fits how you think.</p>
+          </Link>
+          <Link href="/tools/is-cbt-right-for-you" className="block bg-white border border-gray-200 rounded-lg p-5 hover:border-[#151515] transition">
+            <p className="font-black text-[#151515] mb-1">Is CBT Right for You?</p>
+            <p className="text-xs text-gray-500">A quick fit check for CBT.</p>
+          </Link>
+          <Link href="/tools/questions-to-ask-your-therapist" className="block bg-white border border-gray-200 rounded-lg p-5 hover:border-[#151515] transition">
+            <p className="font-black text-[#151515] mb-1">Questions to Ask</p>
+            <p className="text-xs text-gray-500">Printable checklist for your first session.</p>
+          </Link>
+        </div>
+      </section>
+
       {/* Join CTA */}
       <section className="py-16 text-center">
         <h2 className="text-3xl font-black text-[#151515] mb-2">Join the RMT Family</h2>

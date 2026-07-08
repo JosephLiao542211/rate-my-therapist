@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getAuditLog } from "@/lib/audit";
 
-const ENTITY_TYPES = ["therapist", "request", "review", "user"];
+const ENTITY_TYPES = ["therapist", "request", "review", "user", "post"];
 
 export default async function AdminLogsPage({
   searchParams,

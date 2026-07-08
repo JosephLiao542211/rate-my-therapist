@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, UserCheck, MessageSquare, Users, ScrollText, Inbox } from "lucide-react";
+import { LayoutDashboard, UserCheck, MessageSquare, Users, ScrollText, Inbox, Newspaper } from "lucide-react";
 
 const LINKS = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/admin/therapists", label: "Therapist Approvals", icon: UserCheck },
   { href: "/admin/requests", label: "Requests", icon: Inbox },
   { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
+  { href: "/admin/blog", label: "Blog", icon: Newspaper },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/logs", label: "Audit Log", icon: ScrollText },
 ];

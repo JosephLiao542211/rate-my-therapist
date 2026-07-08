@@ -6,7 +6,9 @@ import { setTherapistStatus } from "@/lib/therapists";
 import { deleteReview } from "@/lib/reviews";
 import { setUserRole } from "@/lib/admin-data";
 import { resolveRequest } from "@/lib/requests";
+import { createPost, updatePost, setPostStatus, deletePost } from "@/lib/posts";
 import { logAudit } from "@/lib/audit";
+import { redirect } from "next/navigation";
 
 export async function approveTherapistAction(id: string) {
   const admin = await requireAdmin();
@@ -72,6 +74,107 @@ export async function resolveRequestAction(id: string) {
   });
   revalidatePath("/admin/requests");
   revalidatePath("/admin");
+}
+
+function parseTags(raw: FormDataEntryValue | null): string[] {
+  return String(raw ?? "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+}
+
+export async function createPostAction(formData: FormData) {
+  const admin = await requireAdmin();
+  const title = String(formData.get("title") ?? "").trim();
+  const body = String(formData.get("body") ?? "").trim();
+  if (!title || !body) return;
+
+  const post = await createPost({
+    title,
+    excerpt: String(formData.get("excerpt") ?? "").trim() || null,
+    body,
+    cover_image_url: String(formData.get("cover_image_url") ?? "").trim() || null,
+    tags: parseTags(formData.get("tags")),
+    author_name: admin.name ?? admin.email,
+    author_id: admin.id,
+    status: formData.get("publish") === "on" ? "published" : "draft",
+  });
+
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: "post.created",
+    entity_type: "post",
+    entity_id: post.id,
+    entity_label: post.title,
+  });
+
+  revalidatePath("/admin/blog");
+  revalidatePath("/blog");
+  redirect("/admin/blog");
+}
+
+export async function updatePostAction(id: string, formData: FormData) {
+  const admin = await requireAdmin();
+  const title = String(formData.get("title") ?? "").trim();
+  const body = String(formData.get("body") ?? "").trim();
+  if (!title || !body) return;
+
+  const post = await updatePost(id, {
+    title,
+    excerpt: String(formData.get("excerpt") ?? "").trim() || null,
+    body,
+    cover_image_url: String(formData.get("cover_image_url") ?? "").trim() || null,
+    tags: parseTags(formData.get("tags")),
+  });
+  if (!post) return;
+
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: "post.updated",
+    entity_type: "post",
+    entity_id: post.id,
+    entity_label: post.title,
+  });
+
+  revalidatePath("/admin/blog");
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${post.slug}`);
+  redirect("/admin/blog");
+}
+
+export async function setPostStatusAction(id: string, status: "draft" | "published") {
+  const admin = await requireAdmin();
+  const post = await setPostStatus(id, status);
+  if (!post) return;
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: status === "published" ? "post.published" : "post.unpublished",
+    entity_type: "post",
+    entity_id: post.id,
+    entity_label: post.title,
+  });
+  revalidatePath("/admin/blog");
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${post.slug}`);
+}
+
+export async function deletePostAction(id: string) {
+  const admin = await requireAdmin();
+  const post = await deletePost(id);
+  if (!post) return;
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: "post.deleted",
+    entity_type: "post",
+    entity_id: id,
+    entity_label: post.title,
+  });
+  revalidatePath("/admin/blog");
+  revalidatePath("/blog");
 }
 
 export async function setUserRoleAction(id: string, role: "user" | "admin") {

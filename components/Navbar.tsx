@@ -27,6 +27,16 @@ export default function Navbar() {
           <Image src="/rmt.svg" alt="Rate My Therapist" width={86} height={49} priority className="h-8 w-auto" />
         </Link>
 
+        {/* Tools / Blog — hidden on small screens */}
+        <div className="hidden sm:flex items-center gap-4 shrink-0">
+          <Link href="/tools" className="text-white text-sm font-medium hover:text-gray-300 transition">
+            Tools
+          </Link>
+          <Link href="/blog" className="text-white text-sm font-medium hover:text-gray-300 transition">
+            Blog
+          </Link>
+        </div>
+
         {/* Search bar — center */}
         <form onSubmit={handleSearch} className="flex-1 max-w-xl">
           <div className="relative">
