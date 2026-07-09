@@ -88,19 +88,48 @@ export async function voteOnReview(
 }
 
 export async function getAllReviews(opts: {
+  q?: string;
+  rating?: number;
   limit?: number;
   offset?: number;
 } = {}): Promise<{ reviews: (Review & { therapist_name: string; therapist_slug: string })[]; total: number }> {
-  const { limit = 50, offset = 0 } = opts;
-  const countRes = await pool.query<{ count: string }>("SELECT COUNT(*) FROM reviews");
+  const { q, rating, limit = 50, offset = 0 } = opts;
+
+  const conditions: string[] = [];
+  const values: (string | number)[] = [];
+  let idx = 1;
+
+  if (q) {
+    conditions.push(`(r.body ILIKE $${idx} OR t.name ILIKE $${idx} OR u.name ILIKE $${idx})`);
+    values.push(`%${q}%`);
+    idx++;
+  }
+  if (rating) {
+    conditions.push(`r.rating = $${idx}`);
+    values.push(rating);
+    idx++;
+  }
+
+  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+
+  const countRes = await pool.query<{ count: string }>(
+    `SELECT COUNT(*)
+     FROM reviews r
+     LEFT JOIN users u ON r.user_id = u.id
+     JOIN therapists t ON r.therapist_id = t.id
+     ${where}`,
+    values
+  );
+
   const { rows } = await pool.query<Review & { therapist_name: string; therapist_slug: string }>(
     `SELECT r.*, u.name AS author_name, t.name AS therapist_name, t.slug AS therapist_slug
      FROM reviews r
      LEFT JOIN users u ON r.user_id = u.id
      JOIN therapists t ON r.therapist_id = t.id
+     ${where}
      ORDER BY r.created_at DESC
-     LIMIT $1 OFFSET $2`,
-    [limit, offset]
+     LIMIT $${idx} OFFSET $${idx + 1}`,
+    [...values, limit, offset]
   );
   return { reviews: rows, total: parseInt(countRes.rows[0].count, 10) };
 }

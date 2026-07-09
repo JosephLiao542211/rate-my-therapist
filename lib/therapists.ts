@@ -34,7 +34,8 @@ export interface Therapist {
   pt_uuid: string | null;
   education_institution: string | null;
   education_degree: string | null;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "approved" | "rejected" | "archived";
+  archived_at: string | null;
 }
 
 export interface Clinic {
@@ -225,6 +226,178 @@ export async function setTherapistStatus(
   const { rows } = await pool.query<Therapist>(
     "UPDATE therapists SET status = $2 WHERE id = $1 RETURNING *",
     [id, status]
+  );
+  return rows[0] ?? null;
+}
+
+// ── Admin: directory (search/filter across all statuses) ───────────────────
+
+export async function searchTherapistsAdmin(opts: {
+  q?: string;
+  state?: string;
+  specialty?: string;
+  status?: "pending" | "approved" | "rejected" | "archived";
+  limit?: number;
+  offset?: number;
+}): Promise<{ therapists: Therapist[]; total: number }> {
+  const { q, state, specialty, status, limit = 25, offset = 0 } = opts;
+
+  const conditions: string[] = [];
+  const values: (string | number)[] = [];
+  let idx = 1;
+
+  if (q) {
+    conditions.push(`(name ILIKE $${idx} OR practice_name ILIKE $${idx} OR email ILIKE $${idx})`);
+    values.push(`%${q}%`);
+    idx++;
+  }
+  if (state) {
+    conditions.push(`state_abbr = $${idx}`);
+    values.push(state.toUpperCase());
+    idx++;
+  }
+  if (specialty) {
+    conditions.push(`$${idx} = ANY(specialties)`);
+    values.push(specialty);
+    idx++;
+  }
+  if (status) {
+    conditions.push(`status = $${idx}`);
+    values.push(status);
+    idx++;
+  } else {
+    // Archived therapists have their own dedicated view — never show them
+    // mixed into the default (unfiltered) directory listing.
+    conditions.push(`status != 'archived'`);
+  }
+
+  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+
+  const countRes = await pool.query<{ count: string }>(
+    `SELECT COUNT(*) FROM therapists ${where}`,
+    values
+  );
+
+  const dataRes = await pool.query<Therapist>(
+    `SELECT * FROM therapists ${where}
+     ORDER BY created_at DESC
+     LIMIT $${idx} OFFSET $${idx + 1}`,
+    [...values, limit, offset]
+  );
+
+  return {
+    therapists: dataRes.rows,
+    total: parseInt(countRes.rows[0].count, 10),
+  };
+}
+
+export async function archiveTherapist(id: string): Promise<Therapist | null> {
+  const { rows } = await pool.query<Therapist>(
+    "UPDATE therapists SET status = 'archived', archived_at = NOW() WHERE id = $1 RETURNING *",
+    [id]
+  );
+  return rows[0] ?? null;
+}
+
+export async function restoreTherapist(
+  id: string,
+  status: "pending" | "approved" = "approved"
+): Promise<Therapist | null> {
+  const { rows } = await pool.query<Therapist>(
+    "UPDATE therapists SET status = $2, archived_at = NULL WHERE id = $1 RETURNING *",
+    [id, status]
+  );
+  return rows[0] ?? null;
+}
+
+export async function getArchivedTherapists(opts: {
+  q?: string;
+  limit?: number;
+  offset?: number;
+} = {}): Promise<{ therapists: Therapist[]; total: number }> {
+  const { q, limit = 25, offset = 0 } = opts;
+
+  const conditions: string[] = ["status = 'archived'"];
+  const values: (string | number)[] = [];
+  let idx = 1;
+
+  if (q) {
+    conditions.push(`(name ILIKE $${idx} OR practice_name ILIKE $${idx} OR email ILIKE $${idx})`);
+    values.push(`%${q}%`);
+    idx++;
+  }
+
+  const where = `WHERE ${conditions.join(" AND ")}`;
+
+  const countRes = await pool.query<{ count: string }>(
+    `SELECT COUNT(*) FROM therapists ${where}`,
+    values
+  );
+
+  const dataRes = await pool.query<Therapist>(
+    `SELECT * FROM therapists ${where}
+     ORDER BY archived_at DESC
+     LIMIT $${idx} OFFSET $${idx + 1}`,
+    [...values, limit, offset]
+  );
+
+  return {
+    therapists: dataRes.rows,
+    total: parseInt(countRes.rows[0].count, 10),
+  };
+}
+
+export async function getTherapistById(id: string): Promise<Therapist | null> {
+  const { rows } = await pool.query<Therapist>(
+    "SELECT * FROM therapists WHERE id = $1",
+    [id]
+  );
+  return rows[0] ?? null;
+}
+
+export async function updateTherapist(
+  id: string,
+  data: {
+    name: string;
+    practice_name: string | null;
+    specialties: string[];
+    city: string | null;
+    state: string | null;
+    state_abbr: string | null;
+    bio: string | null;
+    phone: string | null;
+    email: string | null;
+    website: string | null;
+    credentials: string[];
+    languages: string[];
+    telehealth: boolean;
+    in_person: boolean;
+    sliding_scale: boolean | null;
+    individual_session_cost: number | null;
+    modalities: string[];
+    issues: string[];
+    insurance_accepted: string[];
+    years_in_practice: number | null;
+    accepting_clients: boolean;
+  }
+): Promise<Therapist | null> {
+  const { rows } = await pool.query<Therapist>(
+    `UPDATE therapists SET
+       name = $2, practice_name = $3, specialties = $4, city = $5, state = $6, state_abbr = $7,
+       bio = $8, phone = $9, email = $10, website = $11, credentials = $12, languages = $13,
+       telehealth = $14, in_person = $15, sliding_scale = $16, individual_session_cost = $17,
+       modalities = $18, issues = $19, insurance_accepted = $20, years_in_practice = $21,
+       accepting_clients = $22
+     WHERE id = $1
+     RETURNING *`,
+    [
+      id,
+      data.name, data.practice_name, data.specialties, data.city, data.state, data.state_abbr?.toUpperCase() ?? null,
+      data.bio, data.phone, data.email, data.website, data.credentials, data.languages,
+      data.telehealth, data.in_person, data.sliding_scale, data.individual_session_cost,
+      data.modalities, data.issues, data.insurance_accepted, data.years_in_practice,
+      data.accepting_clients,
+    ]
   );
   return rows[0] ?? null;
 }

@@ -6,7 +6,7 @@ import { LayoutDashboard, UserCheck, MessageSquare, Users, ScrollText, Inbox, Ne
 
 const LINKS = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
-  { href: "/admin/therapists", label: "Therapist Approvals", icon: UserCheck },
+  { href: "/admin/therapists", label: "Therapists", icon: UserCheck },
   { href: "/admin/requests", label: "Requests", icon: Inbox },
   { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
   { href: "/admin/blog", label: "Blog", icon: Newspaper },

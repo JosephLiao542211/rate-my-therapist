@@ -17,13 +17,14 @@ export default async function AdminOverviewPage() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Pending Approvals" value={metrics.pendingTherapists} href="/admin/therapists" highlight={metrics.pendingTherapists > 0} />
+        <StatCard label="Pending Approvals" value={metrics.pendingTherapists} href="/admin/therapists?status=pending" highlight={metrics.pendingTherapists > 0} />
         <StatCard label="Open Requests" value={metrics.openRequests} href="/admin/requests" highlight={metrics.openRequests > 0} />
         <StatCard label="Total Therapists" value={metrics.totalTherapists} sub={`${metrics.therapistsLast7Days} new (7d)`} />
         <StatCard label="Total Reviews" value={metrics.totalReviews} sub={`${metrics.reviewsLast7Days} new (7d)`} href="/admin/reviews" />
         <StatCard label="Total Users" value={metrics.totalUsers} href="/admin/users" />
         <StatCard label="Approved Therapists" value={metrics.approvedTherapists} />
         <StatCard label="Rejected Therapists" value={metrics.rejectedTherapists} />
+        <StatCard label="Archived Therapists" value={metrics.archivedTherapists} href="/admin/therapists/archived" />
         <StatCard label="Avg. Rating" value={metrics.avgRating ?? "—"} />
       </div>
 

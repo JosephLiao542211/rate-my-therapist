@@ -36,8 +36,8 @@ export default async function AdminRequestsPage({
                 >
                   {r.type === "claim" ? "Claim" : "Feedback"}
                 </span>
-                {r.therapist_slug && (
-                  <Link href={`/therapist/${r.therapist_slug}`} className="font-semibold hover:underline">
+                {r.therapist_id && (
+                  <Link href={`/admin/therapists/${r.therapist_id}/edit`} className="font-semibold hover:underline">
                     {r.therapist_name}
                   </Link>
                 )}

@@ -5,20 +5,67 @@ import { deleteReviewAction } from "@/app/admin/actions";
 export default async function AdminReviewsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ q?: string; rating?: string; page?: string }>;
 }) {
-  const { page: pageParam } = await searchParams;
+  const { q, rating: ratingParam, page: pageParam } = await searchParams;
   const page = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
+  const rating = ratingParam ? parseInt(ratingParam, 10) : undefined;
   const limit = 25;
-  const { reviews, total } = await getAllReviews({ limit, offset: (page - 1) * limit });
+  const { reviews, total } = await getAllReviews({
+    q,
+    rating: rating && rating >= 1 && rating <= 5 ? rating : undefined,
+    limit,
+    offset: (page - 1) * limit,
+  });
   const totalPages = Math.max(1, Math.ceil(total / limit));
+
+  const buildQuery = (overrides: Record<string, string | undefined>) => {
+    const params = new URLSearchParams();
+    const merged = { q, rating: ratingParam, ...overrides };
+    for (const [key, value] of Object.entries(merged)) {
+      if (value) params.set(key, value);
+    }
+    return `/admin/reviews?${params.toString()}`;
+  };
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-2xl font-black">Reviews</h1>
-        <p className="text-sm text-gray-500">{total} total reviews.</p>
+        <p className="text-sm text-gray-500">{total} review{total === 1 ? "" : "s"} found.</p>
       </div>
+
+      <form className="bg-white border border-gray-200 rounded-lg p-4 flex flex-wrap gap-3 items-end">
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Search</label>
+          <input
+            type="text"
+            name="q"
+            defaultValue={q}
+            placeholder="Review text, therapist, author…"
+            className="border border-gray-300 rounded px-3 py-2 text-sm w-64"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Rating</label>
+          <select name="rating" defaultValue={ratingParam ?? ""} className="border border-gray-300 rounded px-3 py-2 text-sm w-28">
+            <option value="">Any</option>
+            {[5, 4, 3, 2, 1].map((r) => (
+              <option key={r} value={r}>
+                {r}★
+              </option>
+            ))}
+          </select>
+        </div>
+        <button className="bg-[#151515] text-white text-sm font-bold px-4 py-2 rounded hover:opacity-80 transition">
+          Filter
+        </button>
+        {(q || ratingParam) && (
+          <Link href="/admin/reviews" className="text-sm font-semibold text-gray-500 hover:text-[#151515] px-2 py-2">
+            Clear
+          </Link>
+        )}
+      </form>
 
       <div className="flex flex-col gap-3">
         {reviews.map((r) => (
@@ -47,7 +94,7 @@ export default async function AdminReviewsPage({
         ))}
         {reviews.length === 0 && (
           <p className="text-sm text-gray-400 bg-white border border-gray-200 rounded-lg p-8 text-center">
-            No reviews yet.
+            No reviews match these filters.
           </p>
         )}
       </div>
@@ -55,7 +102,7 @@ export default async function AdminReviewsPage({
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 text-sm">
           {page > 1 && (
-            <Link href={`/admin/reviews?page=${page - 1}`} className="px-3 py-1.5 border border-gray-300 rounded font-semibold">
+            <Link href={buildQuery({ page: String(page - 1) })} className="px-3 py-1.5 border border-gray-300 rounded font-semibold">
               Previous
             </Link>
           )}
@@ -63,7 +110,7 @@ export default async function AdminReviewsPage({
             Page {page} of {totalPages}
           </span>
           {page < totalPages && (
-            <Link href={`/admin/reviews?page=${page + 1}`} className="px-3 py-1.5 border border-gray-300 rounded font-semibold">
+            <Link href={buildQuery({ page: String(page + 1) })} className="px-3 py-1.5 border border-gray-300 rounded font-semibold">
               Next
             </Link>
           )}

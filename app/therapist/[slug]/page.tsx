@@ -57,7 +57,7 @@ export default async function TherapistPage({ params }: Props) {
     getTherapistBySlug(slug),
     auth(),
   ]);
-  if (!therapist) notFound();
+  if (!therapist || therapist.status === "archived") notFound();
 
   const [reviews, similar, clinics] = await Promise.all([
     getReviewsByTherapist(therapist.id),

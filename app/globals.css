@@ -24,10 +24,12 @@
 
 html {
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 body {
   background: #F7F7F7;
   color: #151515;
   font-family: var(--font-helvetica), Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
 }

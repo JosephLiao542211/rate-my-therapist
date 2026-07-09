@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-[#151515] sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 h-14 flex items-center gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 h-14 flex items-center gap-2 sm:gap-4">
         {/* Logo */}
         <Link href="/" className="shrink-0 flex items-center">
           <Image src="/rmt.svg" alt="Rate My Therapist" width={86} height={49} priority className="h-8 w-auto" />
@@ -38,7 +38,7 @@ export default function Navbar() {
         </div>
 
         {/* Search bar — center */}
-        <form onSubmit={handleSearch} className="flex-1 max-w-xl">
+        <form onSubmit={handleSearch} className="flex-1 min-w-0 max-w-xl">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
             <input
@@ -53,7 +53,7 @@ export default function Navbar() {
         </form>
 
         {/* Right actions */}
-        <div className="flex items-center gap-2 shrink-0 ml-auto">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto">
           {session ? (
             <div className="relative">
               <button
@@ -92,13 +92,13 @@ export default function Navbar() {
             <>
               <button
                 onClick={() => signIn("google")}
-                className="text-white text-sm font-medium hover:text-gray-300 transition"
+                className="hidden sm:inline text-white text-sm font-medium hover:text-gray-300 transition"
               >
                 Log In
               </button>
               <button
                 onClick={() => signIn("google")}
-                className="border border-white text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-white hover:text-[#151515] transition"
+                className="border border-white text-white text-xs sm:text-sm font-semibold px-2.5 sm:px-4 py-1.5 rounded-full hover:bg-white hover:text-[#151515] transition whitespace-nowrap"
               >
                 Sign Up
               </button>
@@ -106,7 +106,7 @@ export default function Navbar() {
           )}
           <Link
             href="/help"
-            className="text-white text-sm font-medium bg-transparent border border-gray-600 px-3 py-1.5 rounded-full hover:border-gray-400 transition"
+            className="hidden sm:inline-block text-white text-sm font-medium bg-transparent border border-gray-600 px-3 py-1.5 rounded-full hover:border-gray-400 transition"
           >
             Help
           </Link>
