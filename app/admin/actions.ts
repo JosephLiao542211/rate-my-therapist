@@ -7,6 +7,7 @@ import { deleteReview } from "@/lib/reviews";
 import { setUserRole } from "@/lib/admin-data";
 import { resolveRequest } from "@/lib/requests";
 import { createPost, updatePost, setPostStatus, deletePost } from "@/lib/posts";
+import { mergeDuplicateTherapists, dismissDuplicatePair } from "@/lib/duplicates";
 import { logAudit } from "@/lib/audit";
 import { redirect } from "next/navigation";
 
@@ -267,6 +268,38 @@ export async function deletePostAction(id: string) {
   });
   revalidatePath("/admin/blog");
   revalidatePath("/blog");
+}
+
+export async function mergeDuplicatesAction(keepId: string, mergeId: string) {
+  const admin = await requireAdmin();
+  const result = await mergeDuplicateTherapists(keepId, mergeId);
+  if (!result) return;
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: "therapist.merged",
+    entity_type: "therapist",
+    entity_id: keepId,
+    entity_label: result.keepName,
+    metadata: { merged_from: mergeId, merged_name: result.mergeName },
+  });
+  revalidatePath("/admin/duplicates");
+  revalidatePath("/admin/therapists");
+  revalidatePath("/admin");
+}
+
+export async function dismissDuplicateAction(idA: string, idB: string) {
+  const admin = await requireAdmin();
+  await dismissDuplicatePair(idA, idB, admin.id);
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: "duplicate.dismissed",
+    entity_type: "therapist",
+    entity_id: idA,
+    metadata: { other_id: idB },
+  });
+  revalidatePath("/admin/duplicates");
 }
 
 export async function setUserRoleAction(id: string, role: "user" | "admin") {

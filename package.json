@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "scrape": "tsx --env-file=.env.local lib/data-pipeline/psychology-today/scrape.ts",
+    "scrape:goodtherapy": "tsx --env-file=.env.local lib/data-pipeline/goodtherapy/scrape.ts",
     "db:migrate": "tsx --env-file=.env.local scripts/migrate.ts",
     "db:clear": "tsx --env-file=.env.local scripts/clear-db.ts",
     "db:seed-reviews": "tsx --env-file=.env.local scripts/seed-fake-reviews.ts",
@@ -36,6 +37,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "patchright": "^1.61.1",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
     "typescript": "^5"
