@@ -6,6 +6,13 @@ import HelpArticleBody from "@/components/HelpArticleBody";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { BASE } from "@/lib/seo";
 
+const HELP_SCHEMA_DATE = "2026-07-10";
+const HELP_SCHEMA_AUTHOR = {
+  "@type": "Organization",
+  name: "Rate My Therapist",
+  url: BASE,
+};
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -45,9 +52,16 @@ export default async function HelpArticlePage({ params }: Props) {
       "@type": "Question",
       name: article.title,
       text: article.summary,
+      answerCount: 1,
+      author: HELP_SCHEMA_AUTHOR,
+      datePublished: HELP_SCHEMA_DATE,
       acceptedAnswer: {
         "@type": "Answer",
         text: article.body.join(" "),
+        url: `${BASE}/help/${slug}#accepted-answer`,
+        upvoteCount: 0,
+        author: HELP_SCHEMA_AUTHOR,
+        datePublished: HELP_SCHEMA_DATE,
       },
     },
   };
@@ -65,7 +79,9 @@ export default async function HelpArticlePage({ params }: Props) {
         />
         <h1 className="text-2xl font-black text-[#151515] mb-6">{article.title}</h1>
 
-        <HelpArticleBody body={article.body} />
+        <div id="accepted-answer">
+          <HelpArticleBody body={article.body} />
+        </div>
 
         {related.length > 0 && (
           <div className="mt-12">
