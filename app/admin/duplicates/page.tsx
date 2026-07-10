@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { getDuplicatePairs } from "@/lib/duplicates";
-import { mergeDuplicatesAction, dismissDuplicateAction } from "@/app/admin/actions";
+import { getDuplicateGroups } from "@/lib/duplicates";
+import { mergeDuplicateGroupAction, mergeSelectedDuplicateGroupsAction } from "@/app/admin/actions";
 import { formatDistanceToNow } from "@/lib/format-time";
 import type { DuplicateCandidate } from "@/lib/duplicates";
 
@@ -15,7 +15,7 @@ export default async function AdminDuplicatesPage({
   const page = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
   const offset = (page - 1) * PAGE_SIZE;
 
-  const { pairs, total } = await getDuplicatePairs({ limit: PAGE_SIZE, offset });
+  const { groups, total } = await getDuplicateGroups({ limit: PAGE_SIZE, offset });
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
@@ -28,44 +28,32 @@ export default async function AdminDuplicatesPage({
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
-        {pairs.map((pair) => (
-          <div key={`${pair.a.id}-${pair.b.id}`} className="bg-white border border-gray-200 rounded-lg p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Candidate candidate={pair.a} />
-              <Candidate candidate={pair.b} />
-            </div>
-            <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-              <form action={mergeDuplicatesAction.bind(null, pair.a.id, pair.b.id)}>
-                <button className="text-xs font-bold px-3 py-2 rounded bg-[#151515] text-white hover:opacity-80 transition">
-                  Keep &ldquo;{pair.a.name}&rdquo; (archive other)
-                </button>
-              </form>
-              <form action={mergeDuplicatesAction.bind(null, pair.b.id, pair.a.id)}>
-                <button className="text-xs font-bold px-3 py-2 rounded bg-[#151515] text-white hover:opacity-80 transition">
-                  Keep &ldquo;{pair.b.name}&rdquo; (archive other)
-                </button>
-              </form>
-              <form action={dismissDuplicateAction.bind(null, pair.a.id, pair.b.id)}>
-                <button className="text-xs font-bold px-3 py-2 rounded border border-gray-300 text-gray-600 hover:border-[#151515] hover:text-[#151515] transition">
-                  Not a duplicate
-                </button>
-              </form>
-            </div>
+      <form action={mergeSelectedDuplicateGroupsAction} className="flex flex-col gap-4">
+        {groups.length > 0 && (
+          <div className="flex justify-end">
+            <button className="text-xs font-bold px-3 py-2 rounded bg-[#151515] text-white hover:opacity-80 transition">
+              Merge all selected
+            </button>
           </div>
+        )}
+        {groups.map((group) => (
+          <DuplicateGroupPanel
+            key={`${group.key.name}-${group.key.city}-${group.key.state_abbr}`}
+            candidates={group.candidates}
+          />
         ))}
-        {pairs.length === 0 && (
+        {groups.length === 0 && (
           <p className="text-sm text-gray-400 bg-white border border-gray-200 rounded-lg p-8 text-center">
             No flagged duplicates right now.
           </p>
         )}
-      </div>
+      </form>
 
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-3 text-xs font-bold">
           <PageLink page={page - 1} disabled={page <= 1} label="← Prev" />
           <span className="text-gray-400">
-            Page {page} of {totalPages} ({total} flagged pairs)
+            Page {page} of {totalPages} ({total} duplicate groups)
           </span>
           <PageLink page={page + 1} disabled={page >= totalPages} label="Next →" />
         </div>
@@ -74,7 +62,61 @@ export default async function AdminDuplicatesPage({
   );
 }
 
-function Candidate({ candidate: c }: { candidate: DuplicateCandidate }) {
+function DuplicateGroupPanel({ candidates }: { candidates: DuplicateCandidate[] }) {
+  const keep = candidates[0];
+  const mergeIds = candidates.slice(1).map((candidate) => candidate.id);
+  const location = [keep.city, keep.state_abbr].filter(Boolean).join(", ");
+  const groupValue = `${keep.id}:${mergeIds.join(",")}`;
+
+  return (
+    <div className="flex gap-3">
+      <label className="pt-5">
+        <input
+          type="checkbox"
+          name="groups"
+          value={groupValue}
+          className="h-4 w-4 rounded border-gray-300"
+          aria-label={`Select ${keep.name} duplicate group`}
+        />
+      </label>
+      <details className="group flex-1 bg-white border border-gray-200 rounded-lg">
+        <summary className="cursor-pointer list-none p-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-base font-black">{keep.name}</h2>
+              <p className="text-xs text-gray-500">
+                {candidates.length} duplicate listings{location ? ` in ${location}` : ""}
+              </p>
+            </div>
+            <span className="text-xs font-bold text-gray-400 group-open:hidden">Show listings</span>
+            <span className="text-xs font-bold text-gray-400 hidden group-open:inline">Hide listings</span>
+          </div>
+        </summary>
+
+        <div className="px-4 pb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {candidates.map((candidate) => (
+              <Candidate key={candidate.id} candidate={candidate} keep={candidate.id === keep.id} />
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+            <button
+              formAction={mergeDuplicateGroupAction.bind(null, keep.id, mergeIds)}
+              className="text-xs font-bold px-3 py-2 rounded bg-[#151515] text-white hover:opacity-80 transition"
+            >
+              Merge all into &ldquo;{keep.name}&rdquo;
+            </button>
+            <p className="text-xs text-gray-500">
+              Keeps the listing with the most reviews, then archives the other {mergeIds.length}.
+            </p>
+          </div>
+        </div>
+      </details>
+    </div>
+  );
+}
+
+function Candidate({ candidate: c, keep }: { candidate: DuplicateCandidate; keep: boolean }) {
   return (
     <div className="flex gap-3 p-3 rounded-lg bg-gray-50">
       <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden shrink-0">
@@ -102,6 +144,11 @@ function Candidate({ candidate: c }: { candidate: DuplicateCandidate }) {
           {c.review_count > 0 && (
             <span className="text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">
               {c.review_count} review{c.review_count === 1 ? "" : "s"}
+            </span>
+          )}
+          {keep && (
+            <span className="text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded bg-gray-900 text-white">
+              Kept
             </span>
           )}
         </div>

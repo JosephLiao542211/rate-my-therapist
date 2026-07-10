@@ -7,7 +7,7 @@ import { deleteReview } from "@/lib/reviews";
 import { setUserRole } from "@/lib/admin-data";
 import { resolveRequest } from "@/lib/requests";
 import { createPost, updatePost, setPostStatus, deletePost } from "@/lib/posts";
-import { mergeDuplicateTherapists, dismissDuplicatePair } from "@/lib/duplicates";
+import { mergeDuplicateTherapistGroup, mergeDuplicateTherapists, dismissDuplicatePair } from "@/lib/duplicates";
 import { logAudit } from "@/lib/audit";
 import { redirect } from "next/navigation";
 
@@ -283,6 +283,58 @@ export async function mergeDuplicatesAction(keepId: string, mergeId: string) {
     entity_label: result.keepName,
     metadata: { merged_from: mergeId, merged_name: result.mergeName },
   });
+  revalidatePath("/admin/duplicates");
+  revalidatePath("/admin/therapists");
+  revalidatePath("/admin");
+}
+
+export async function mergeDuplicateGroupAction(keepId: string, mergeIds: string[]) {
+  const admin = await requireAdmin();
+  const result = await mergeDuplicateTherapistGroup(keepId, mergeIds);
+  if (!result) return;
+  await logAudit({
+    actor_user_id: admin.id,
+    actor_email: admin.email,
+    action: "therapist.group_merged",
+    entity_type: "therapist",
+    entity_id: keepId,
+    entity_label: result.keepName,
+    metadata: {
+      merged_from: result.merged.map((therapist) => therapist.id),
+      merged_names: result.merged.map((therapist) => therapist.name),
+    },
+  });
+  revalidatePath("/admin/duplicates");
+  revalidatePath("/admin/therapists");
+  revalidatePath("/admin");
+}
+
+export async function mergeSelectedDuplicateGroupsAction(formData: FormData) {
+  const admin = await requireAdmin();
+  const selectedGroups = formData.getAll("groups").map((value) => String(value));
+
+  for (const selectedGroup of selectedGroups) {
+    const [keepId, mergeIdsValue = ""] = selectedGroup.split(":");
+    const mergeIds = mergeIdsValue.split(",").filter(Boolean);
+    if (!keepId || mergeIds.length === 0) continue;
+
+    const result = await mergeDuplicateTherapistGroup(keepId, mergeIds);
+    if (!result) continue;
+
+    await logAudit({
+      actor_user_id: admin.id,
+      actor_email: admin.email,
+      action: "therapist.group_merged",
+      entity_type: "therapist",
+      entity_id: keepId,
+      entity_label: result.keepName,
+      metadata: {
+        merged_from: result.merged.map((therapist) => therapist.id),
+        merged_names: result.merged.map((therapist) => therapist.name),
+      },
+    });
+  }
+
   revalidatePath("/admin/duplicates");
   revalidatePath("/admin/therapists");
   revalidatePath("/admin");
