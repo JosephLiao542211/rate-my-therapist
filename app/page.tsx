@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import HeroSearch from "@/components/HeroSearch";
 import LocationHero from "@/components/LocationHero";
+import GeoTopTherapists from "@/components/GeoTopTherapists";
 import TherapistCard from "@/components/TherapistCard";
 import { SPECIALTIES } from "@/lib/constants";
 import { searchTherapists, getTopLocations } from "@/lib/therapists";
 import { getTopClinics } from "@/lib/clinics";
-import { LOCATION_COOKIE } from "@/lib/geo";
 
 export const metadata: Metadata = {
   title: "Rate My Therapist — Find & Review Therapists Near You",
@@ -16,27 +15,17 @@ export const metadata: Metadata = {
     "Browse thousands of honest therapist reviews. Find the right mental health professional by specialty, city, and rating.",
 };
 
-// Personalizes "Top-Rated Therapists" once the visitor has granted browser
-// geolocation (see LocationHero, which sets the rmt_city cookie) — reading
-// a cookie forces this page to render per-request rather than via ISR.
-export const dynamic = "force-dynamic";
+// Static + hourly ISR so bots and first-time visitors get a fast, cacheable,
+// consistent page. Geo personalization lives in the <GeoTopTherapists /> client
+// island (see below), so the homepage no longer force-renders per request.
+export const revalidate = 3600;
 
 export default async function HomePage() {
-  const cookieStore = await cookies();
-  const geoCity = cookieStore.get(LOCATION_COOKIE)?.value ?? null;
-
-  const [geoResult, topLocations, topClinics] = await Promise.all([
-    geoCity ? searchTherapists({ city: geoCity, limit: 6 }) : Promise.resolve({ therapists: [], total: 0 }),
+  const [{ therapists: topTherapists }, topLocations, topClinics] = await Promise.all([
+    searchTherapists({ limit: 6 }),
     getTopLocations(12),
     getTopClinics(12),
   ]);
-
-  let topTherapists = geoResult.therapists;
-  let sectionCity = topTherapists.length > 0 ? geoCity : null;
-  if (topTherapists.length === 0) {
-    const fallback = await searchTherapists({ limit: 6 });
-    topTherapists = fallback.therapists;
-  }
 
   return (
     <>
@@ -77,11 +66,15 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Geo-personalized city section (client island — only for returning
+          visitors who granted geolocation; invisible to bots/first-time users) */}
+      <GeoTopTherapists />
+
       {/* Top-rated therapists */}
       {topTherapists.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 py-14">
           <h2 className="text-2xl font-black text-[#151515] mb-6">
-            {sectionCity ? `Top-Rated Therapists in ${sectionCity}` : "Top-Rated Therapists"}
+            Top-Rated Therapists
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {topTherapists.map((t) => (

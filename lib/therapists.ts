@@ -210,6 +210,19 @@ export async function getAllTherapistSlugs(): Promise<string[]> {
   return rows.map((r) => r.slug);
 }
 
+// Only therapists whose pages are actually indexable. Mirrors the `isThin`
+// rule in app/therapist/[slug]/page.tsx (review_count === 0 && !bio → noindex),
+// so the sitemap never advertises URLs that then say "don't index me" — a
+// contradiction that wastes crawl budget and dilutes site quality signals.
+export async function getIndexableTherapistSlugs(): Promise<string[]> {
+  const { rows } = await pool.query<{ slug: string }>(
+    `SELECT slug FROM therapists
+     WHERE status = 'approved'
+       AND (review_count > 0 OR (bio IS NOT NULL AND bio <> ''))`
+  );
+  return rows.map((r) => r.slug);
+}
+
 // ── Admin: approval workflow ────────────────────────────────────────────────
 
 export async function getPendingTherapists(): Promise<Therapist[]> {

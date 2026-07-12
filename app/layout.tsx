@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   description:
     "Read and write honest reviews for therapists and counselors. Find the right mental health professional by specialty, city, and rating.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "https://rate-my-therapist.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://rate-my-therapist.com"),
   icons: {
     icon: "/favi.png",
   },

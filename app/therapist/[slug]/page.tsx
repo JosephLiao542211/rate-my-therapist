@@ -12,6 +12,7 @@ import { auth } from "@/lib/auth";
 import ReviewCard from "@/components/ReviewCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { BASE } from "@/lib/seo";
+import { buildTherapistSummary, buildTherapistMetaDescription, humanize } from "@/lib/therapist-summary";
 
 export const revalidate = 3600;
 
@@ -28,16 +29,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const therapist = await getTherapistBySlug(slug);
   if (!therapist) return { title: "Therapist Not Found" };
-  const location = [therapist.city, therapist.state_abbr]
-    .filter(Boolean)
-    .join(", ");
-  const specialty = therapist.specialties[0] ?? "Therapist";
-  // Thin content — pages with no reviews and no bio carry nothing unique for
-  // Google to index yet, so keep them out of the index until they do.
-  const isThin = therapist.review_count === 0 && !therapist.bio;
+  // A page is only thin if it has neither reviews nor any structured profile
+  // data to render. Bio is intentionally not part of this check: it isn't
+  // displayed, so its presence in the DB says nothing about what's on the page.
+  const hasProfileData =
+    therapist.issues?.length > 0 ||
+    therapist.modalities?.length > 0 ||
+    therapist.insurance_accepted?.length > 0 ||
+    therapist.credentials?.length > 0 ||
+    therapist.languages?.length > 0 ||
+    Boolean(therapist.years_in_practice) ||
+    Boolean(therapist.education_institution);
+  const isThin = therapist.review_count === 0 && !hasProfileData;
   return {
     title: `${therapist.name} Reviews`,
-    description: `Read ${therapist.review_count} reviews of ${therapist.name}, a ${specialty} therapist in ${location}. Average rating: ${therapist.avg_rating}/5.`,
+    description: buildTherapistMetaDescription(therapist),
     alternates: { canonical: `${BASE}/therapist/${slug}` },
     robots: isThin || therapist.status !== "approved" ? { index: false, follow: true } : undefined,
   };
@@ -100,6 +106,10 @@ export default async function TherapistPage({ params }: Props) {
     .join(", ");
   const stateSlug = therapist.state_abbr?.toLowerCase();
   const citySlug = therapist.city?.toLowerCase().replace(/\s+/g, "-");
+
+  // Unique, fact-derived profile copy — the main indexable content on pages
+  // that don't have reviews yet.
+  const summary = buildTherapistSummary(therapist);
 
   // JSON-LD
   const jsonLd = {
@@ -249,6 +259,18 @@ export default async function TherapistPage({ params }: Props) {
               )}
             </p>
 
+            {/* About — composed from this therapist's structured profile data */}
+            {summary.length > 0 && (
+              <div className="mb-6">
+                <h2 className="text-xs font-black uppercase tracking-widest text-gray-500 mb-2">
+                  About {therapist.name.split(" ")[0]}
+                </h2>
+                <p className="text-sm text-[#151515] leading-relaxed">
+                  {summary.join(" ")}
+                </p>
+              </div>
+            )}
+
             {/* Stats row */}
             {(pctRecommend !== null || avgSessions !== null) && (
               <div className="flex items-center gap-6 mb-6">
@@ -297,31 +319,77 @@ export default async function TherapistPage({ params }: Props) {
             >
               I&apos;m {therapist.name.split(" ")[0]}
             </Link>
+          </div>
 
-            {/* Extra info — collapsed by default */}
-            <details className="mt-5 border-t border-gray-200 pt-4 group">
-              <summary className="text-sm font-semibold text-[#151515] cursor-pointer select-none list-none flex items-center gap-1.5">
-                More details
-                <svg
-                  className="w-3.5 h-3.5 transition group-open:rotate-180"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </summary>
+          {/* RIGHT — distribution + similar */}
+          <div className="flex-1 flex flex-col gap-6">
+            {/* Rating Distribution */}
+            <div className="bg-[#ECECEC] p-5">
+              <h2 className="font-poppins font-bold text-[#151515] text-lg mb-4">
+                Rating Distribution
+              </h2>
+              <div className="flex flex-col gap-3">
+                {[5, 4, 3, 2, 1].map((star) => {
+                  const count = dist[star] ?? 0;
+                  const pct = (count / maxCount) * 100;
+                  return (
+                    <div key={star} className="flex items-center gap-3 text-sm">
+                      <span className="text-[#151515] w-24 text-right shrink-0 whitespace-nowrap">
+                        {ratingLabel(star)}{" "}
+                        <strong className="font-poppins font-bold">{star}</strong>
+                      </span>
+                      <div className="flex-1 bg-gray-300 h-6 overflow-hidden">
+                        <div
+                          className={`h-full ${ratingBarColor()} transition-all`}
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                      <b className="font-poppins text-[#151515] w-5 shrink-0">{count}</b>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-              <div className="mt-4 flex flex-col gap-4">
+            {/* Similar Therapists */}
+            {similar.length > 0 && (
+              <div className="bg-[#EEF1FE] p-3.5">
+                <h2 className="font-poppins font-black text-[#151515] text-sm mb-2.5">
+                  Similar Therapists
+                </h2>
+                <div className="flex flex-wrap gap-2.5">
+                  {similar.map((t) => (
+                    <Link
+                      key={t.id}
+                      href={`/therapist/${t.slug}`}
+                      className="flex items-center gap-2 hover:opacity-80 transition"
+                    >
+                      <span className="font-poppins text-xs font-black px-2 py-1 bg-[#0057FF] text-white shrink-0">
+                        {Number(t.avg_rating).toFixed(2)}
+                      </span>
+                      <span className="text-xs font-bold text-[#151515] leading-tight max-w-[5.5rem]">
+                        {t.name}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Practice details — rendered visibly (not behind a toggle) so this
+                per-therapist data is real, crawlable content on the page. */}
+            <div className="bg-white border border-gray-200 rounded-lg p-5">
+              <h2 className="font-poppins font-bold text-[#151515] text-lg mb-4">
+                Practice Details
+              </h2>
+
+              <div className="flex flex-col gap-4">
                 {/* Credentials / quick facts */}
                 {(therapist.credentials?.length > 0 ||
                   therapist.health_role ||
-                  therapist.years_in_practice) && (
+                  therapist.years_in_practice ||
+                  therapist.education_degree ||
+                  therapist.education_institution) && (
                   <div className="flex flex-col gap-2">
                     {therapist.credentials?.length > 0 && (
                       <p className="text-sm text-[#151515]">
@@ -329,10 +397,24 @@ export default async function TherapistPage({ params }: Props) {
                         {therapist.credentials.join(", ")}
                       </p>
                     )}
+                    {therapist.health_role && (
+                      <p className="text-sm text-[#151515]">
+                        <span className="font-bold">Role:</span>{" "}
+                        {humanize(therapist.health_role)}
+                      </p>
+                    )}
                     {therapist.years_in_practice && (
                       <p className="text-sm text-[#151515]">
                         <span className="font-bold">Years in Practice:</span>{" "}
                         {therapist.years_in_practice}
+                      </p>
+                    )}
+                    {(therapist.education_degree || therapist.education_institution) && (
+                      <p className="text-sm text-[#151515]">
+                        <span className="font-bold">Education:</span>{" "}
+                        {[therapist.education_degree, therapist.education_institution]
+                          .filter(Boolean)
+                          .join(", ")}
                       </p>
                     )}
                     {therapist.individual_session_cost && (
@@ -437,88 +519,19 @@ export default async function TherapistPage({ params }: Props) {
                 )}
 
               </div>
-            </details>
-          </div>
-
-          {/* RIGHT — distribution + similar */}
-          <div className="flex-1 flex flex-col gap-6">
-            {/* Rating Distribution */}
-            <div className="bg-[#ECECEC] p-5">
-              <h2 className="font-poppins font-bold text-[#151515] text-lg mb-4">
-                Rating Distribution
-              </h2>
-              <div className="flex flex-col gap-3">
-                {[5, 4, 3, 2, 1].map((star) => {
-                  const count = dist[star] ?? 0;
-                  const pct = (count / maxCount) * 100;
-                  return (
-                    <div key={star} className="flex items-center gap-3 text-sm">
-                      <span className="text-[#151515] w-24 text-right shrink-0 whitespace-nowrap">
-                        {ratingLabel(star)}{" "}
-                        <strong className="font-poppins font-bold">{star}</strong>
-                      </span>
-                      <div className="flex-1 bg-gray-300 h-6 overflow-hidden">
-                        <div
-                          className={`h-full ${ratingBarColor()} transition-all`}
-                          style={{ width: `${pct}%` }}
-                        />
-                      </div>
-                      <b className="font-poppins text-[#151515] w-5 shrink-0">{count}</b>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
-
-            {/* Similar Therapists */}
-            {similar.length > 0 && (
-              <div className="bg-[#EEF1FE] p-3.5">
-                <h2 className="font-poppins font-black text-[#151515] text-sm mb-2.5">
-                  Similar Therapists
-                </h2>
-                <div className="flex flex-wrap gap-2.5">
-                  {similar.map((t) => (
-                    <Link
-                      key={t.id}
-                      href={`/therapist/${t.slug}`}
-                      className="flex items-center gap-2 hover:opacity-80 transition"
-                    >
-                      <span className="font-poppins text-xs font-black px-2 py-1 bg-[#0057FF] text-white shrink-0">
-                        {Number(t.avg_rating).toFixed(2)}
-                      </span>
-                      <span className="text-xs font-bold text-[#151515] leading-tight max-w-[5.5rem]">
-                        {t.name}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Issues / Modalities / Insurance — collapsed by default */}
+        {/* Issues / Modalities / Insurance — full width, spans both columns */}
         {(therapist.issues?.length > 0 ||
           therapist.modalities?.length > 0 ||
           therapist.insurance_accepted?.length > 0) && (
-          <details className="mt-4 group">
-            <summary className="text-sm font-semibold text-[#151515] cursor-pointer select-none list-none flex items-center gap-1.5">
+          <section className="mt-8">
+            <h2 className="text-sm font-bold text-[#151515] border-b-2 border-[#151515] inline-block pb-1 mb-4">
               Specialties, approaches &amp; insurance
-              <svg
-                className="w-3.5 h-3.5 transition group-open:rotate-180"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </summary>
-            <div className="grid sm:grid-cols-3 gap-4 mt-4">
+            </h2>
+            <div className="grid sm:grid-cols-3 gap-4">
               {therapist.issues?.length > 0 && (
                 <div className="bg-white rounded-lg border border-gray-200 p-4">
                   <p className="text-xs font-black uppercase tracking-widest text-gray-500 mb-2">
@@ -571,7 +584,7 @@ export default async function TherapistPage({ params }: Props) {
                 </div>
               )}
             </div>
-          </details>
+          </section>
         )}
 
         {/* Reviews section */}

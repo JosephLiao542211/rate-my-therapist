@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import {
-  getAllTherapistSlugs,
+  getIndexableTherapistSlugs,
   getAllLocations,
   getAllSpecialties,
   getLocationSpecialtyCombos,
@@ -11,7 +11,7 @@ import { SPECIALTIES } from "@/lib/constants";
 import { specialtyToSlug } from "@/lib/specialties";
 import { HELP_ARTICLES } from "@/lib/help";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://rate-my-therapist.com";
+const BASE = process.env.NEXT_PUBLIC_BASE_URL || "https://rate-my-therapist.com";
 
 const TOOL_SLUGS = [
   "therapist-match-quiz",
@@ -22,7 +22,7 @@ const TOOL_SLUGS = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [slugs, locations, dbSpecialties, clinicSlugs, postSlugs, locationSpecialtyCombos] = await Promise.all([
-    getAllTherapistSlugs(),
+    getIndexableTherapistSlugs(),
     getAllLocations(),
     getAllSpecialties(),
     getAllClinicSlugs(),

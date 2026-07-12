@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createTherapist } from "@/lib/therapists";
+import { createTherapist, searchTherapists } from "@/lib/therapists";
 import { logAudit } from "@/lib/audit";
 import { auth } from "@/lib/auth";
+
+// Powers the homepage's geo-personalized "Top-Rated Therapists in <city>"
+// island, so the page itself can stay static (ISR) instead of force-dynamic.
+export async function GET(req: NextRequest) {
+  const city = req.nextUrl.searchParams.get("city");
+  if (!city) return NextResponse.json({ therapists: [] });
+  const { therapists } = await searchTherapists({ city, limit: 6 });
+  return NextResponse.json({ therapists });
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();

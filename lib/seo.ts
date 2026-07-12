@@ -1,4 +1,6 @@
-const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://ratemytherapist.com";
+// `||` (not `??`) so an empty-string env var falls back too — a blank
+// NEXT_PUBLIC_BASE_URL would otherwise bake relative/broken canonicals into the build.
+const BASE = process.env.NEXT_PUBLIC_BASE_URL || "https://rate-my-therapist.com";
 
 export { BASE };
 
