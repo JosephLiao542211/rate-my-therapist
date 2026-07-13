@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { BASE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description: "The terms that govern your use of Rate My Therapist.",
+  alternates: { canonical: `${BASE}/terms` },
 };
 
 export default function TermsPage() {

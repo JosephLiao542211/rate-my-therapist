@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { BASE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How Rate My Therapist collects, uses, and protects your information.",
+  alternates: { canonical: `${BASE}/privacy` },
 };
 
 export default function PrivacyPolicyPage() {

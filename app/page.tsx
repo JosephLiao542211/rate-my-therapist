@@ -8,11 +8,13 @@ import TherapistCard from "@/components/TherapistCard";
 import { SPECIALTIES } from "@/lib/constants";
 import { searchTherapists, getTopLocations } from "@/lib/therapists";
 import { getTopClinics } from "@/lib/clinics";
+import { BASE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Rate My Therapist — Find & Review Therapists Near You",
   description:
     "Browse thousands of honest therapist reviews. Find the right mental health professional by specialty, city, and rating.",
+  alternates: { canonical: BASE },
 };
 
 // Static + hourly ISR so bots and first-time visitors get a fast, cacheable,

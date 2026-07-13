@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { BASE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Site Guidelines",
   description: "Guidelines for submitting reviews and listings on Rate My Therapist.",
+  alternates: { canonical: `${BASE}/guidelines` },
 };
 
 export default function GuidelinesPage() {
