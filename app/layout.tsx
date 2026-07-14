@@ -7,7 +7,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import Navbar from "@/components/Navbar";
 import SessionProvider from "@/components/SessionProvider";
-import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -29,12 +28,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
   return (
     <html lang="en" className={`h-full ${helveticaNeue.variable}`}>
       <head>
@@ -46,7 +44,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-[#F7F7F7] text-[#151515]">
-        <SessionProvider session={session}>
+        <SessionProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
           <footer className="bg-[#151515] text-white py-10">
