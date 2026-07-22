@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getTherapistsByLocation, getAllLocations } from "@/lib/therapists";
-import TherapistCard from "@/components/TherapistCard";
+import SortableCityGroups from "@/components/SortableCityGroups";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { BASE } from "@/lib/seo";
 
@@ -68,36 +67,7 @@ export default async function StatePage({ params }: Props) {
       {cities.length === 0 ? (
         <p className="text-gray-500">No therapists listed in this state yet.</p>
       ) : (
-        <div className="flex flex-col gap-10">
-          {cities.map((city) => (
-            <section key={city}>
-              <h2 className="text-lg font-bold text-gray-800 mb-3">
-                <Link
-                  href={`/location/${state}/${city.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="hover:text-teal-600 transition"
-                >
-                  {city}
-                </Link>
-                <span className="text-sm text-gray-400 font-normal ml-2">
-                  ({byCity[city].length})
-                </span>
-              </h2>
-              <div className="flex flex-col gap-3">
-                {byCity[city].slice(0, 5).map((t) => (
-                  <TherapistCard key={t.id} therapist={t} />
-                ))}
-                {byCity[city].length > 5 && (
-                  <Link
-                    href={`/location/${state}/${city.toLowerCase().replace(/\s+/g, "-")}`}
-                    className="text-sm text-teal-600 font-semibold hover:underline"
-                  >
-                    View all {byCity[city].length} therapists in {city} →
-                  </Link>
-                )}
-              </div>
-            </section>
-          ))}
-        </div>
+        <SortableCityGroups state={state} cities={cities} byCity={byCity} />
       )}
     </div>
   );

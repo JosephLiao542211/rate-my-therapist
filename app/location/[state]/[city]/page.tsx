@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTherapistsByLocation, getAllLocations } from "@/lib/therapists";
-import TherapistCard from "@/components/TherapistCard";
+import SortableTherapistList from "@/components/SortableTherapistList";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Faq from "@/components/Faq";
 import { BASE } from "@/lib/seo";
@@ -74,11 +74,7 @@ export default async function CityPage({ params }: Props) {
           </Link>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
-          {therapists.map((t) => (
-            <TherapistCard key={t.id} therapist={t} />
-          ))}
-        </div>
+        <SortableTherapistList therapists={therapists} />
       )}
 
       <Faq
